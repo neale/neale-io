@@ -7,6 +7,7 @@ import numpy as np
 from glob import glob
 from time import sleep
 from flask import Flask, request, jsonify, render_template, url_for, redirect
+from flask import  send_from_directory, send_file
 from flask import session
 
 # for reval
@@ -35,7 +36,7 @@ def init_cppn(uid, rand=False):
 def home():
     try:
         clear_images(session['uid'], 'jpg')
-        clear_images(session['uid'], 'tiff')
+        clear_images(session['uid'], 'tif')
     except Exception as e:
         print (e)
 
@@ -61,11 +62,13 @@ def cppn_viewer():
             'layer_width': 32,
             'interpolation': 10,
             'exp_name': 'static/assets/cppn_images',
-            'seed': 1234567890,
+            'seed': None,
+            'seed_gen': 1234567890,
             'uid': session['uid'],
         }
     session['curr_img_idx'] = 0
     session['landing_img'] = 'images/12.png'
+    session['landing_img_sm'] = 'images/12_sm.png'
     
     slider_vals = {
         'z_slider_init'            : session['cppn_config']['z_dim'],
@@ -74,8 +77,9 @@ def cppn_viewer():
         'interpolation_range_init' : session['cppn_config']['interpolation'],}
     
     return render_template('cppn.html',
-                            data=session['landing_img'],
-                            slider_vals=slider_vals)
+                           data={'landing': session['landing_img'],
+                                 'landing_sm': session['landing_img_sm']},
+                           slider_vals=slider_vals)
 
 
 def sort_fn_nums(fns):
@@ -129,19 +133,24 @@ def generate_image():
         
         print ('gen image', session['cppn_config'])
         cppn = init_cppn(uid=session['uid'], rand=True)
+        print ('request.form:', request.form)
+        session['curr_img_idx'] = 1
         session.modified = True
         if cppn.generator is None:
             cppn.init_generator()
         uid = session['uid']
         sample_dir = 'static/assets/cppn_images/{}/temp/'.format(uid)
         os.makedirs(sample_dir, exist_ok=True)
-        clear_images(uid, 'jpg') 
-        clear_images(uid, 'tif') 
-        assert len(glob('{}/*.jpg'.format(sample_dir))) == 0
+        if request.form.get('clear') is not None:
+            if request.form.get('clear') == 'true':
+                clear_images(uid, 'jpg') 
+                clear_images(uid, 'tif') 
+                assert len(glob('{}/*.jpg'.format(sample_dir))) == 0
         sample, fn_suff = run_image_batch(cppn, uid, autosave)
         sample, batch_samples = sample
         assert sample is not None, "sample is None"
         images_in_dir = glob('{}/*.jpg'.format(sample_dir))
+        images_in_dir = [img for img in images_in_dir if 'lrg' not in img]
         if len(images_in_dir) > 1:
             first_sample, last_sample, samples = sort_fn_nums(images_in_dir)
         else:
@@ -156,8 +165,126 @@ def generate_image():
     else:
         return jsonify({'img': 'image_12.png'})
 
+
+def save_images(x, y, res):
+    uid = session['uid']
+    idx = session['curr_img_idx']
+    sample_dir = f'static/assets/cppn_images/{uid}/temp/'
+    tiffs = glob('{}/*.tif'.format(sample_dir))
+    print (sample_dir, tiffs)
+    img = [img for img in tiffs if f'_{idx}.tif' in img]
+    assert len(img) > 0
+    path = img[0]
+    with tifffile.TiffFile(path) as tif:
+        metadata = tif.shaped_metadata[0]
+
+    session['cppn_config']['seed'] = int(metadata['seed'])
+    session['cppn_config']['seed_gen'] = int(metadata['seed_gen'])
+    session['cppn_config']['z_dim'] = int(metadata['z'])
+    session['cppn_config']['z_scale'] = int(float(metadata['scale']))
+    session['cppn_config']['layer_width'] = int(metadata['net'])
+    session.modified=True
+    noise = literal_eval(metadata['z_sample'])
+    cppn = init_cppn(uid=session['uid'], rand=False)
+    if cppn.generator is None:
+        cppn.init_generator()
+    sample = cppn.sample_frame(torch.as_tensor(noise),
+            x,
+            y,
+            batch_size=1)
+    assert sample is not None, "sample is None"
+    sample = sample[0].numpy() * 255.
+    name = f'z{cppn.z_dim}_scale{cppn.z_scale}_width{cppn.layer_width}_{res}'
+    img_path = f'{sample_dir}{name}_{idx}'
+    cppn._write_image(img_path, sample, 'png')
+    img_path = img_path+'.png'
+    return img_path
+
+
+@app.route('/download-small', methods=['GET'])
+def save_image_small():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_sm.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_sm.png', as_attachment=True)
+    
+    x = y = 256
+    path = save_images(x, y, 256) 
+    return send_file(path, as_attachment=True)
+
+
+@app.route('/download-lrg', methods=['GET'])
+def save_image_large():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_lrg.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_lrg.png', as_attachment=True)
+
+    x = y = 512
+    path = save_images(x, y, 512)
+    return send_file(path, as_attachment=True)
+
+
+@app.route('/download-desktop1', methods=['GET'])
+def save_image_desktop1k():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_desktop.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_desktop.png', as_attachment=True)
+    
+    x = 1920
+    y = 1080
+    path = save_images(x, y, '1920-1080')
+    return send_file(path, as_attachment=True)
+
+@app.route('/download-desktop2', methods=['GET'])
+def save_image_desktop2k():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_desktop2k.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_desktop2k.png', as_attachment=True)
+
+    x = 2160
+    y = 1440
+    path = save_images(x, y, '2k')
+    return send_file(path, as_attachment=True)
+
+
+@app.route('/download-desktop4', methods=['GET'])
+def save_image_desktop4k():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_desktop4k.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_desktop4k.png', as_attachment=True)
+
+    x = 3840
+    y = 2160
+    path = save_images(x, y, '4k')
+    return send_file(path, as_attachment=True)
+
+
 @app.route('/regenerate-image', methods=['GET', 'POST'])
-def regenerate_image(increment=0):
+def regenerate_image():
     """
     re-Generates and renders a single image (no ajax jet so page is refreshed)
     """
@@ -170,27 +297,55 @@ def regenerate_image(increment=0):
             return redirect("/cppn")
 
         uid = session['uid']
-        idx = session['curr_img_idx'] + increment
+        if request.form.get('set_to') is not None:
+            idx = int(request.form.get('set_to')) + 1
+        else:
+            increment = request.form.get('increment')
+            idx = session['curr_img_idx'] + int(increment)
+            if idx < 1:
+                idx = 6
+            if idx > 6:
+                idx = 1
+
+        print (f'next idx {idx}')
         sample_dir = f'static/assets/cppn_images/{uid}/temp/'
+        
         if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
             print ('no next or prev, redirecting to generate')
             return redirect("/generate-image")
+        
+        imgs = glob('{}/*.tif'.format(sample_dir))
+        jpgs = glob('{}/*.jpg'.format(sample_dir))
+        fn_exist = [fn for fn in jpgs if f'lrg{idx}' in fn]
+        print (fn_exist)
+
+        if len(fn_exist) > 0:
+            print (f'increment to {idx} already exists')
+            assert len(fn_exist) < 2
+            img_path = fn_exist[0].split('static/')[1]
+            session['curr_img_idx'] = idx
+            session.modified=True
+            return jsonify({'img': f'{img_path}'})
 
         print ('re-gen image', session['cppn_config'])
         # load image and grab config --> set to session config
-        imgs = glob('{}/*.tif'.format(sample_dir))
-        img_prefix = imgs[0].split('.')[0]
+        img_prefix = imgs[0].split('.tif')[0]
+        print (img_prefix)
         img_path = img_prefix[:-1]+str(idx)+'.tif'
         with tifffile.TiffFile(img_path) as tif:
             metadata = tif.shaped_metadata[0]
 
         session['cppn_config']['seed'] = int(metadata['seed'])
+        session['cppn_config']['seed_gen'] = int(metadata['seed_gen'])
         session['cppn_config']['z_dim'] = int(metadata['z'])
-        session['cppn_config']['z_scale'] = int(metadata['scale'])
+        session['cppn_config']['z_scale'] = int(float(metadata['scale']))
         session['cppn_config']['layer_width'] = int(metadata['net'])
+        session['curr_img_idx'] = idx
+
         session.modified=True
         print (metadata['z_sample'])
         noise = literal_eval(metadata['z_sample'])
+        print ('before init')
         cppn = init_cppn(uid=session['uid'], rand=False)
         if cppn.generator is None:
             cppn.init_generator()
@@ -199,9 +354,11 @@ def regenerate_image(increment=0):
             session['cppn_config']['x_dim'],
             session['cppn_config']['y_dim'],
             batch_size=1)
+        print ('right before this')
         assert sample is not None, "sample is None"
         sample = sample[0].numpy() * 255.
         img_path = f'{sample_dir}{np.random.randint(99999)}tmp_lrg{idx}'
+        print ('write')
         cppn._write_image(img_path, sample, 'jpg')
         img_path = img_path.split('static/')[1]
         ret = {'img': f'{img_path}.jpg'}

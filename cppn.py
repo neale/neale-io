@@ -27,8 +27,8 @@ class CPPN(object):
                  n_samples=16,
                  x_dim=512,
                  y_dim=512,
-                 x_dim_gallary=128,
-                 y_dim_gallary=128,
+                 x_dim_gallary=256,
+                 y_dim_gallary=256,
                  c_dim=3,
                  z_scale=10,
                  layer_width=32,
@@ -40,7 +40,8 @@ class CPPN(object):
                  walk=False,
                  sample=True,
                  uid='1234',
-                 seed=123456789,
+                 seed_gen=123456789,
+                 seed=None,
                  init_at_startup=False):
         self.z_dim = z_dim
         self.n_samples = n_samples
@@ -60,8 +61,9 @@ class CPPN(object):
         self.sample = sample
         self.uid = uid
         
-        self.seed_gen = seed
-        self.init_random_seed()
+        self.seed = seed
+        self.seed_gen = seed_gen
+        self.init_random_seed(seed=seed)
         self._init_paths()
         
         if init_at_startup:
@@ -69,17 +71,21 @@ class CPPN(object):
         else:
             self.generator = None
 
-    def init_random_seed(self):
+    def init_random_seed(self, seed=None):
         """ 
         initializes random seed for torch. Random seed needs
             to be a stored value so that we can save the right metadata. 
             This is not to be confused with the uid that is not a seed, 
             rather how we associate user sessions with data
         """
-        print ('initing with seed gen: {}'.format(self.seed_gen))
-        self.seed = np.random.randint(self.seed_gen)
-        # np.random.seed(self.seed)
-        torch.manual_seed(self.seed)
+        if seed == None:
+            print ('initing with seed gen: {}'.format(self.seed_gen))
+            self.seed = np.random.randint(self.seed_gen)
+            # np.random.seed(self.seed)
+            torch.manual_seed(self.seed)
+        else:
+            # np.random.seed(self.seed)
+            torch.manual_seed(self.seed)
 
     def _init_paths(self):
         if not os.path.exists(self.exp_name+'/'+str(self.uid)):
@@ -91,7 +97,7 @@ class CPPN(object):
                 nn.init.normal_(layer.weight.data)
         return model
 
-    def init_generator(self):
+    def init_generator(self, seed=None):
         generator = Generator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
         self.generator = torch.jit.script(self._init_weights(generator))
         self.generator.eval()
@@ -134,6 +140,8 @@ class CPPN(object):
 
     def sample_frame(self, z, x_dim, y_dim, batch_size):
         with torch.no_grad():
+            print ('generating ({},{}) with seed {}-{}'.format(
+                x_dim, y_dim, self.seed, self.seed_gen))
             x_vec, y_vec, r_vec, n_pts = self._coordinates(x_dim, y_dim, batch_size)
             one_vec = torch.ones(n_pts, 1, dtype=torch.float)
             z_scale = z.view(batch_size, 1, self.z_dim) * one_vec * self.z_scale
@@ -188,20 +196,20 @@ def run_cppn(cppn, uid, autosave=False):
         sample = cppn.sample_frame(z, cppn.x_dim, cppn.y_dim, batch_size=1)
         sample = sample[0].numpy() * 255.
 
-        #print(f"Initializing Batch Sample for {uid}")
-        #batch_sample = cppn.sample_frame(
-        #    z_batch, cppn.x_dim_gallary, cppn.y_dim_gallary, batch_size=10)
-        #batch_sample = batch_sample.numpy() * 255.
         batch_samples = []
         for z_i in z_batch:
             batch_sample = cppn.sample_frame(
-                z_i, cppn.x_dim_gallary, cppn.y_dim_gallary, batch_size=1)
+                z_i,
+                cppn.x_dim_gallary,
+                cppn.y_dim_gallary,
+                batch_size=1)
             batch_sample = batch_sample[0].numpy() * 255.
             batch_samples.append(batch_sample)
 
         n = np.random.randint(99999999)
         for i, (img, z_j) in enumerate(zip([sample, *batch_samples], [z, *z_batch])):
             metadata = dict(seed=str(cppn.seed),
+                    seed_gen=str(cppn.seed_gen),
                     z_sample=str(z_j.numpy().reshape(-1).tolist()),
                     z=str(cppn.z_dim), 
                     c_dim=str(cppn.c_dim),
@@ -210,6 +218,9 @@ def run_cppn(cppn, uid, autosave=False):
             if autosave:
                 save_fn = f'{cppn.exp_name}/{uid}/temp/{n}{suff}_{i}'
                 #print ('saving TIFF/PNG image pair at: {}'.format(save_fn))
+                if i == 0:
+                    save_fn_lrg = save_fn[:-1]+'lrg{}'.format(i)
+                    cppn._write_image(path=save_fn_lrg, x=img, suffix='jpg')
                 cppn._write_image(path=save_fn, x=img, suffix='jpg')
                 cppn._write_image(path=save_fn, x=img.astype('u1'), suffix='tif',
                     metadata=metadata)
