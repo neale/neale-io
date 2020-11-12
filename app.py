@@ -118,6 +118,10 @@ def run_image_batch(cppn, uid, autosave):
     return sample, fn_suff
 
 
+@app.route('/generate-image-random', methods=['GET', 'POST'])
+def generate_image_random():
+    pass
+
 @app.route('/generate-image', methods=['GET', 'POST'])
 def generate_image():
     """
