@@ -31,17 +31,17 @@ Controlled Pattern Producing Network
             </button>
             <button 
                 type="button"
+                id='more-btn'
+                onclick="window.location.href='{{ url_for('generate_image') }}'"
+                class="btn btn-lg btn-dark btn-spacing btn-width btn-size">
+                More
+            </button>
+            <button 
+                type="button" 
                 id='next-btn'
                 onclick="window.location.href='{{ url_for('regenerate_image') }}'"
                 class="btn btn-lg btn-dark btn-spacing btn-width btn-size">
                 Next
-            </button>
-            <button 
-                type="button" 
-                id='prev-btn'
-                onclick="window.location.href='{{ url_for('regenerate_image') }}'"
-                class="btn btn-lg btn-dark btn-spacing btn-width btn-size">
-                Prev
             </button>
             <button 
                 type="button"
@@ -220,26 +220,32 @@ Controlled Pattern Producing Network
 
     }
 </script>
-
 <script>
-    var prev_btn = document.getElementById('prev-btn');
-    prev_btn.onclick = function() {
-        $.post({
-            url: '/regenerate-image',
-            data: {"increment": -1},
-            success: function(response){
-                console.log('Prev new image:', response.img);
-                $("#main-img").attr('src', response.img);
-            },
-            error: function(error){
-                alert(response);
-                console.log(error);
-            }
-        });
-
-    }
+    var more_btn = document.getElementById('more-btn');
+    more_btn.onclick = function() {
+    $.post({
+        url: '/generate-image',
+        data: {"clear": true, "keepseed": true},
+        success: function(response){
+            console.log('set new image:', response.img);
+            $("#main-img").attr('src', response.img);
+            $("#recent0").attr('src', response.recent1);
+            $("#recent1").attr('src', response.recent2);
+            $("#recent2").attr('src', response.recent3);
+            $("#recent3").attr('src', response.recent4);
+            $("#recent4").attr('src', response.recent5);
+            $("#recent5").attr('src', response.recent6);
+            $("#recent6").attr('src', response.recent7);
+            $("#recent7").attr('src', response.recent8);
+            $("#recent8").attr('src', response.recent9);
+        },
+        error: function(error){
+            alert(response);
+            console.log(error);
+        }
+    });
+}
 </script>
-
 <script>
     function randint(min, max) {
         return Math.floor(Math.random() * (max - min) + min);

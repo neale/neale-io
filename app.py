@@ -52,14 +52,14 @@ def cppn_viewer():
     if 'cppn_config' not in session.keys():
         print('creating cppn config')
         session['cppn_config'] = {
-            'z_dim'    : 8,
+            'z_dim'    : 4,
             'n_samples': 16,
             'x_dim': 512,
             'y_dim': 512,
             'c_dim': 3,
             'batch_size': 16,
-            'z_scale': 10,
-            'layer_width': 32,
+            'z_scale': 4,
+            'layer_width': 4,
             'interpolation': 10,
             'exp_name': 'static/assets/cppn_images',
             'seed': None,
@@ -113,14 +113,10 @@ def clear_images(uid, suffix='jpg'):
             os.remove(image)
 
 
-def run_image_batch(cppn, uid, autosave):
-    sample, fn_suff = run_cppn(cppn, uid, autosave=autosave)
+def run_image_batch(cppn, uid, autosave, z=None):
+    sample, fn_suff = run_cppn(cppn, uid, autosave=autosave, z=z)
     return sample, fn_suff
 
-
-@app.route('/generate-image-random', methods=['GET', 'POST'])
-def generate_image_random():
-    pass
 
 @app.route('/generate-image', methods=['GET', 'POST'])
 def generate_image():
@@ -135,22 +131,50 @@ def generate_image():
         if 'cppn_config' not in session.keys():
             return redirect("/cppn")
         
+        uid = session['uid']
         print ('gen image', session['cppn_config'])
-        cppn = init_cppn(uid=session['uid'], rand=True)
         print ('request.form:', request.form)
-        session['curr_img_idx'] = 1
-        session.modified = True
+        sample_dir = 'static/assets/cppn_images/{}/temp/'.format(uid)
+        # More button, generate samples by jittering a single z sample
+        # chosen sample is the index
+        override = False
+        if request.form.get('keepseed') == 'true':
+            idx  = session['curr_img_idx']
+            imgs = glob('{}/*.tif'.format(sample_dir))
+            jpgs = glob('{}/*.jpg'.format(sample_dir))
+            fn_exist = [fn for fn in jpgs if f'_{idx}.' in fn]
+            if len(fn_exist) == 0:  # if we pressed more before generate, run generate
+                session['curr_img_idx'] = 1
+                session.modified = True
+                cppn = init_cppn(uid=uid, rand=True)
+                override = True
+                print ('OVERRIDING')
+            else:    
+                img_prefix = imgs[0].split('.tif')[0]
+                print (img_prefix)
+                img_path = img_prefix[:-1]+str(idx)+'.tif'
+                with tifffile.TiffFile(img_path) as tif:
+                    metadata = tif.shaped_metadata[0]
+                session['cppn_config']['seed'] = int(metadata['seed'])
+                noise = literal_eval(metadata['z_sample'])
+                session.modified = True
+                cppn = init_cppn(uid=uid, rand=False)
+        else:  # normal generate following ranges
+            session['curr_img_idx'] = 1
+            session.modified = True
+            cppn = init_cppn(uid=uid, rand=True)
         if cppn.generator is None:
             cppn.init_generator()
-        uid = session['uid']
-        sample_dir = 'static/assets/cppn_images/{}/temp/'.format(uid)
-        os.makedirs(sample_dir, exist_ok=True)
-        if request.form.get('clear') is not None:
-            if request.form.get('clear') == 'true':
-                clear_images(uid, 'jpg') 
-                clear_images(uid, 'tif') 
-                assert len(glob('{}/*.jpg'.format(sample_dir))) == 0
-        sample, fn_suff = run_image_batch(cppn, uid, autosave)
+            os.makedirs(sample_dir, exist_ok=True)
+        if request.form.get('clear') == 'true':
+            clear_images(uid, 'jpg') 
+            clear_images(uid, 'tif') 
+            assert len(glob('{}/*.jpg'.format(sample_dir))) == 0
+        if request.form.get('keepseed') == 'true' and not override:
+            z = torch.tensor(noise)
+            sample, fn_suff = run_image_batch(cppn, uid, autosave, z=z)
+        else:
+            sample, fn_suff = run_image_batch(cppn, uid, autosave)
         sample, batch_samples = sample
         assert sample is not None, "sample is None"
         images_in_dir = glob('{}/*.jpg'.format(sample_dir))

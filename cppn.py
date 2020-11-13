@@ -23,7 +23,7 @@ logging.getLogger().setLevel(logging.ERROR)
 class CPPN(object):
     """initializes a CPPN"""
     def __init__(self,
-                 z_dim=8,
+                 z_dim=4,
                  n_samples=16,
                  x_dim=512,
                  y_dim=512,
@@ -31,7 +31,7 @@ class CPPN(object):
                  y_dim_gallary=256,
                  c_dim=3,
                  z_scale=10,
-                 layer_width=32,
+                 layer_width=4,
                  batch_size=16,
                  interpolation=10,
                  reinit_freq=10,
@@ -138,6 +138,7 @@ class CPPN(object):
         else:
             raise NotImplementedError
 
+
     def sample_frame(self, z, x_dim, y_dim, batch_size):
         with torch.no_grad():
             print ('generating ({},{}) with seed {}-{}'.format(
@@ -165,13 +166,20 @@ class CPPN(object):
         return states
 
     
-def run_cppn(cppn, uid, autosave=False):
+def run_cppn(cppn, uid, autosave=False, z=None):
     if cppn.name_style == 'simple':
         suff = 'image'
     if cppn.name_style == 'params':
         suff = 'z-{}_scale-{}_cdim-{}_net-{}'.format(
             cppn.z_dim, cppn.z_scale, cppn.c_dim, cppn.layer_width)
-    z_batch = cppn.init_inputs(batch_size=9)
+    if z is None:
+        z_batch = cppn.init_inputs(batch_size=9)
+    else:
+        z_batch = z.repeat(9, 1)
+        z_batch += torch.ones_like(z_batch).uniform_(-.5, .5)
+        idx_rand = torch.randint(0, 5, size=(1,))
+        z_batch[idx_rand] = torch.tensor([1.,]).normal_(0, .4)
+
     # get file number
     n_files = len(glob.glob(f"{cppn.exp_name}/{uid}/*.jpg"))
     if cppn.walk:
