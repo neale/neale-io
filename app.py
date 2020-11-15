@@ -42,6 +42,9 @@ def home():
 
     return render_template("index.html")
 
+@app.route('/genart')
+def genart():
+    return render_template('genart.html')
 
 @app.route('/cppn')
 def cppn_viewer():
@@ -431,13 +434,13 @@ def slider_control():
                 session['cppn_config']['z_scale'] = new_z_scale
                 session.modified = True
             ret['z_scale'] = new_z_scale
-
-        if request.form.get('interpolation_range'):
-            new_interpolate = int(request.form.get('interpolation_range'))
-            if new_interpolate != session['cppn_config']['interpolation']:
-                session['cppn_config']['interpolation'] = new_interpolate
-                session.modified = True
-            ret['interpolation'] = new_interpolate
+        
+        #if request.form.get('interpolation_range'):
+        #    new_interpolate = int(request.form.get('interpolation_range'))
+        #    if new_interpolate != session['cppn_config']['interpolation']:
+        #        session['cppn_config']['interpolation'] = new_interpolate
+        #        session.modified = True
+        #    ret['interpolation'] = new_interpolate
         else:
             ret['nothing'] = 0
         return jsonify(ret)
