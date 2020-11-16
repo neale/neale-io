@@ -9,7 +9,6 @@ import torchvision
 import cv2
 
 import tifffile
-from imageio import imwrite, imsave
 
 # Because imageio uses the root logger instead of warnings package...
 import logging
