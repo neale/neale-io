@@ -50,6 +50,14 @@ Controlled Pattern Producing Network
                 class="btn btn-lg btn-danger btn-spacing btn-width btn-size">
                 Random
             </button>
+            <button 
+                type="button"
+                id="random-gen-btn"
+                onclick="window.location.href='{{ url_for('generate_image') }}'"
+                class="btn btn-lg btn-danger btn-spacing btn-width btn-size">
+                Very Random
+            </button>
+            <div class="bt
 	    <div class="btn-group">
 	        <button type="button" class="btn btn-primary dropdown-toggle"
                     id=save-btn"
@@ -318,6 +326,78 @@ Controlled Pattern Producing Network
         });
 }
 </script>
+<script>
+function randint(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+var random_btn = document.getElementById('random-gen-btn');
+img = document.getElementById("main-img"),
+    slide_z = document.getElementById('z_range'),
+    sliderDiv_z = document.getElementById("z_range_slider_amount"),
+    slide_net_width = document.getElementById('net_width_range'),
+    sliderDiv_net_width = document.getElementById("net_width_range_slider_amount"),
+    slide_z_scale = document.getElementById('z_scale_range'),
+    sliderDiv_z_scale = document.getElementById("z_scale_range_slider_amount");
+
+random_btn.onclick = function() {
+    var z_rand = randint(1, 8);
+    var net_width_rand = randint(1, 32);
+    var scale_rand = randint(0, 256);
+    console.log('setting random settings:');
+    console.log('\tz dim:', z_rand);
+    console.log('\tnet width:', net_width_rand);
+    console.log('\tz scale:', scale_rand);
+
+    sliderDiv_z.innerHTML = z_rand;
+    sliderDiv_net_width.innerHTML = net_width_rand;
+    sliderDiv_z_scale.innerHTML = scale_rand;
+
+    slide_z.value = z_rand;
+    slide_net_width.value = net_width_rand;
+    slide_z_scale.value = scale_rand;
+
+    $.post({
+        url: "/slider-control",
+        data: {"z_range": z_rand,
+            "net_width_range": net_width_rand,
+            "z_scale_range": scale_rand},
+
+        success: function(response){
+            console.log('response: ', response);
+            console.log('new z:', response.z);
+            console.log('new width:', response.net_width);
+            console.log('new z scale:', response.z_scale);
+            $.post({
+                url: '/generate-image',
+                data: {"clear": true, "random-gen": true},
+                success: function(response){
+                    console.log('set new random image:', response.img);
+                    console.log('set new random gallary:', response.recent1);
+                    $("#main-img").attr('src', response.img);
+                    $("#recent0").attr('src', response.recent1);
+                    $("#recent1").attr('src', response.recent2);
+                    $("#recent2").attr('src', response.recent3);
+                    $("#recent3").attr('src', response.recent4);
+                    $("#recent4").attr('src', response.recent5);
+                    $("#recent5").attr('src', response.recent6);
+                    $("#recent6").attr('src', response.recent7);
+                    $("#recent7").attr('src', response.recent8);
+                    $("#recent8").attr('src', response.recent9);
+                },
+                error: function(error){
+                    alert(response);
+                    console.log(error);
+                }
+            });
+        },
+        error: function(error){
+            alert(response);
+            console.log(error);
+        }
+    });
+}
+</script>
+
 
 <script>
     var gallary0 = document.getElementById('recent0');
