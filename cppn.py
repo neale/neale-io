@@ -5,6 +5,7 @@ import argparse
 import numpy as np
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torchvision
 import cv2
 
@@ -23,7 +24,7 @@ class CPPN(object):
     """initializes a CPPN"""
     def __init__(self,
                  z_dim=4,
-                 n_samples=16,
+                 n_samples=6,
                  x_dim=512,
                  y_dim=512,
                  x_dim_gallary=256,
@@ -132,7 +133,6 @@ class CPPN(object):
         if suffix in ['jpg', 'png']:
             path = path + f'.{suffix}'
             cv2.imwrite(path, x)
-            print (path)
         elif suffix == 'tif':
             assert metadata is not None, "metadata must be included to save tif"
             path = path + '.tif'
@@ -175,10 +175,10 @@ def run_cppn(cppn, uid, autosave=False, z=None):
         suff = 'z-{}_scale-{}_cdim-{}_net-{}'.format(
             cppn.z_dim, cppn.z_scale, cppn.c_dim, cppn.layer_width)
     if z is None:
-        z_batch = cppn.init_inputs(batch_size=9)
+        z_batch = cppn.init_inputs(batch_size=6)
     else:
-        z_batch = z.repeat(9, 1)
-        z_batch += torch.ones_like(z_batch).uniform_(-.5, .5)
+        z_batch = z.repeat(6, 1)
+        z_batch += torch.ones_like(z_batch).uniform_(-.25, .25)
         idx_rand = torch.randint(0, 5, size=(1,))
         z_batch[idx_rand] = torch.tensor([1.,]).normal_(0, .4)
 
@@ -206,15 +206,11 @@ def run_cppn(cppn, uid, autosave=False, z=None):
         sample = cppn.sample_frame(z, cppn.x_dim, cppn.y_dim, batch_size=1)
         sample = sample[0].numpy() * 255.
 
-        batch_samples = []
-        for z_i in z_batch:
-            batch_sample = cppn.sample_frame(
-                z_i,
-                cppn.x_dim_gallary,
-                cppn.y_dim_gallary,
-                batch_size=1)
-            batch_sample = batch_sample[0].numpy() * 255.
-            batch_samples.append(batch_sample)
+        batch_samples = [cppn.sample_frame(
+                            z_i,
+                            cppn.x_dim_gallary,
+                            cppn.y_dim_gallary,
+                            batch_size=1)[0].numpy() * 255. for z_i in z_batch]
 
         n = np.random.randint(99999999)
         if cppn.generator.name == 'RandomGenerator':

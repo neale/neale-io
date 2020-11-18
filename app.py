@@ -22,7 +22,6 @@ APPNAME = 'NealeFlaskCPPNSite'
 app = Flask(__name__, static_url_path='', static_folder='static')
 app.config.update(APPNAME=APPNAME)
 app.secret_key = str(np.random.randint(int(1e9)))
-app.debug=True
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 
@@ -58,7 +57,7 @@ def cppn_viewer():
         print('creating cppn config')
         session['cppn_config'] = {
             'z_dim'    : 4,
-            'n_samples': 16,
+            'n_samples': 6,
             'x_dim': 512,
             'y_dim': 512,
             'c_dim': 3,
