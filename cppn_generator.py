@@ -74,6 +74,9 @@ class RandomGenerator(nn.Module):
         #        F.leaky_relu_, F.gelu, F.softsign, F.softplus, F.softmax, F.tanh,
         #        F.sigmoid, F.silu, F.mish, self.ident, torch.arcsin, torch.cos,
         #        torch.sin]
+        print ('Order')
+        for act in self.acts[:9]:
+            print (act)
 
     def forward(self, x, y, z, r, z_scaled):
 

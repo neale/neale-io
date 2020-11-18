@@ -367,8 +367,7 @@ def regenerate_image():
             img_path = fn_exist[0].split('static/')[1]
             session['curr_img_idx'] = idx
             session.modified=True
-            return jsonify({'img': f'{img_path}',
-                           'img_path_orig': img_prefix})
+            return jsonify({'img': f'{img_path}'})
 
         print ('re-gen image', session['cppn_config'])
         # load image and grab config --> set to session config
