@@ -18,11 +18,6 @@ class CosLayer(nn.Module):
     def forward(self, x):
         return torch.cos(x)
 
-ACTS = {'acts': np.array([nn.ELU(), nn.Hardtanh(), nn.LeakyReLU(), nn.LogSigmoid(),
-              nn.SELU(), nn.GELU(), nn.CELU(), nn.Sigmoid(), nn.Mish(),
-              nn.Softplus(), nn.Softshrink(), nn.Tanh(), torch.nn.ReLU(),
-              SinLayer(), CosLayer()])
-}
 
 class Generator(nn.Module):
     def __init__(self,
@@ -58,6 +53,7 @@ class Generator(nn.Module):
         x = .5 * torch.sin(self.linear_out(H)) + .5
         return x
 
+
 class RandomGenerator(nn.Module):
     def __init__(self,
                  z_dim,
@@ -78,8 +74,13 @@ class RandomGenerator(nn.Module):
         self.linear_h = nn.Linear(self.layer_width, self.layer_width)
         self.linear_out = nn.Linear(self.layer_width, self.c_dim)
 
-        order = np.random.randint(0, 15, size=(9,))
-        self.acts = nn.ModuleList(ACTS['acts'][order])
+        acts = [nn.ELU(), nn.Hardtanh(), nn.LeakyReLU(), nn.LogSigmoid(),
+            nn.SELU(), nn.GELU(), nn.CELU(), nn.Sigmoid(), nn.Mish(),
+            nn.Softplus(), nn.Softshrink(), nn.Tanh(), torch.nn.ReLU(),
+            SinLayer(), CosLayer()]
+        self.order = torch.randint(0, 15, size=(9,))
+        a = [acts[i] for i in self.order]
+        self.acts = nn.ModuleList(a)
 
     def forward(self, x, y, z, r, z_scaled):
         z_pt = self.acts[0](self.linear_z(z_scaled))

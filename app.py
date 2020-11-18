@@ -371,8 +371,9 @@ def regenerate_image():
         print ('re-gen image', session['cppn_config'])
         # load image and grab config --> set to session config
         img_prefix = imgs[0].split('.tif')[0]
-        print (img_prefix)
         img_path = img_prefix[:-1]+str(idx)+'.tif'
+        print (img_path, idx)
+        print ()
         with tifffile.TiffFile(img_path) as tif:
             metadata = tif.shaped_metadata[0]
 
@@ -388,9 +389,7 @@ def regenerate_image():
             randgen = False
 
         session.modified=True
-        print (metadata['z_sample'])
         noise = literal_eval(metadata['z_sample'])
-        print ('before init')
         cppn = init_cppn(uid=session['uid'], rand=False)
         if cppn.generator is None:
             cppn.init_generator(random_generator=randgen)
@@ -399,16 +398,13 @@ def regenerate_image():
             session['cppn_config']['x_dim'],
             session['cppn_config']['y_dim'],
             batch_size=1)
-        print ('right before this')
         assert sample is not None, "sample is None"
         sample = sample[0].numpy() * 255.
         img_path = f'{sample_dir}{np.random.randint(99999)}tmp_lrg{idx}'
-        print ('write')
         cppn._write_image(img_path, sample, 'jpg')
         img_path = img_path.split('static/')[1]
         ret = {'img': f'{img_path}.jpg',
                'img_path_orig': img_prefix}
-        print (ret)
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})
