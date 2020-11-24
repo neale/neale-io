@@ -4,7 +4,6 @@ import csv
 import json, jsonify
 import requests
 import numpy as np
-import pandas as pd
 
 from glob import glob
 from time import sleep
@@ -75,7 +74,7 @@ def cppn_viewer():
     session['curr_img_idx'] = 0
     session['landing_img'] = 'images/12.png'
     session['landing_img_sm'] = 'images/12_sm.png'
-    session['last_act_order'] = ['']
+    session['last_act_order'] = []
     
     slider_vals = {
         'z_slider_init'            : session['cppn_config']['z_dim'],
@@ -200,8 +199,12 @@ def generate_image():
             name = samples[i].split('static/')[1]
             ret[f'recent{i}'] = name
         ret['gen_name'] = str(cppn.generator.name)
+        print (cppn.generator.name)
         if cppn.generator.name == 'RandomGenerator':
-            ret['gen_act'] = str(a.__repr__ for a in cppn.generator.acts)
+            act_order = list(str(a.__repr__ for a in cppn.generator.acts))
+            ret['gen_act'] = act_order
+            session['last_act_order'] = act_order
+            session.modified = True
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})
@@ -473,21 +476,35 @@ def vote_image():
             return redirect("/cppn")
         uid  = session['uid']
         acts = session['last_act_order']
+        print (acts)
         vote = request.form.get('vote')
+        print ('what')
+        if acts == []:
+            print ('quitting')
+            return jsonify({})
+
         if not os.path.isfile('voting_table.csv'):
-            with open('voting_table.csv', 'wb') as f:
+            with open('voting_table.csv', 'a+') as f:
                 # write header
                 writer = csv.writer(f, delimiter=',')
                 writer.writerow(['Iter','Act0','Act1','Act2','Act3',
                                  'Act4','Act5','Act6','Act7','Act8'])
          
-        with open('voting_table.csv', 'a') as f:
-            # write header
+        with open('voting_table.csv', 'r+') as f:
             lines = len(list(csv.reader(f)))
+            print ('now {} lines'.format(lines))
+            if lines == 0:
+                writer = csv.writer(f, delimiter=',')
+                writer.writerow(['Iter','Act0','Act1','Act2','Act3',
+                    'Act4','Act5','Act6','Act7','Act8'])
+                lines = 1
+
+        with open('voting_table.csv', 'a+') as f:
             writer = csv.writer(f, delimiter=',')
             row = [str(lines)]
             row.extend(acts[:8])
-    return
+            writer.writerow(row)
+    return jsonify({})
 
 @app.route("/<name>")
 def user(name):
