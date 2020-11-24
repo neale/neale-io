@@ -97,6 +97,13 @@
 .btn-group {
     margin-left: 2%;
 }
+.vote-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3em;
+}
+
 input[type=range]:focus {
 	outline: none;
 }
