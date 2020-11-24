@@ -199,9 +199,9 @@ def generate_image():
             name = samples[i].split('static/')[1]
             ret[f'recent{i}'] = name
         ret['gen_name'] = str(cppn.generator.name)
-        print (cppn.generator.name)
         if cppn.generator.name == 'RandomGenerator':
-            act_order = list(str(a.__repr__ for a in cppn.generator.acts))
+            act_order = [str(a.__repr__()) for a in cppn.generator.acts]
+            print ('act order: ', act_order)
             ret['gen_act'] = act_order
             session['last_act_order'] = act_order
             session.modified = True
@@ -477,7 +477,7 @@ def vote_image():
         uid  = session['uid']
         acts = session['last_act_order']
         print (acts)
-        vote = request.form.get('vote')
+        vote = int(request.form.get('vote'))
         print ('what')
         if acts == []:
             print ('quitting')
@@ -502,6 +502,7 @@ def vote_image():
         with open('voting_table.csv', 'a+') as f:
             writer = csv.writer(f, delimiter=',')
             row = [str(lines)]
+            row.extend(str(vote))
             row.extend(acts[:8])
             writer.writerow(row)
     return jsonify({})

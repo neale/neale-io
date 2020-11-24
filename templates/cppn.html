@@ -428,7 +428,7 @@ random_gen_btn.onclick = function() {
     minus_btn.onclick = function() {
         $.post({
             url: '/vote-image',
-            data: {"vote": -1},
+            data: {"vote": 0},
             success: function(response){
                 console.log('voted:', response.vote);
             },
