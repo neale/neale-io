@@ -125,10 +125,12 @@ def run_image_batch(cppn, uid, autosave, z=None):
 
 
 @app.route('/generate-image', methods=['GET', 'POST'])
-def generate_image():
+def generate_image(clear=False, random_gen=False):
     """
     Generates and renders a single image (no ajax jet so page is refreshed)
     """
+    print (clear, random_gen)
+    print (request.args.get('random_gen'), request.args.get('clear'))
     autosave = True
     if request.method == 'GET':
         return redirect("/cppn")
@@ -170,12 +172,12 @@ def generate_image():
             session.modified = True
             cppn = init_cppn(uid=uid, rand=True)
         if cppn.generator is None:
-            if request.form.get('random-gen') == 'true':
+            if request.form.get('random-gen') == 'true' or random_gen:
                 cppn.init_generator(random_generator=True)
             else:
                 cppn.init_generator(random_generator=False)
             os.makedirs(sample_dir, exist_ok=True)
-        if request.form.get('clear') == 'true':
+        if request.form.get('clear') == 'true' or clear:
             clear_images(uid, 'jpg') 
             clear_images(uid, 'tif') 
             assert len(glob('{}/*.jpg'.format(sample_dir))) == 0
@@ -482,6 +484,7 @@ def vote_image():
         if acts == []:
             print ('quitting')
             return jsonify({})
+            #return generate_image(clear=True, random_gen=True)
 
         if not os.path.isfile('voting_table.csv'):
             with open('voting_table.csv', 'a+') as f:
@@ -505,6 +508,8 @@ def vote_image():
             row.extend(str(vote))
             row.extend(acts[:8])
             writer.writerow(row)
+
+    #return generate_image(clear=True, random_gen=True)
     return jsonify({})
 
 @app.route("/<name>")

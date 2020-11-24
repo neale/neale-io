@@ -413,7 +413,29 @@ random_gen_btn.onclick = function() {
             url: '/vote-image',
             data: {"vote": 1},
             success: function(response){
-                console.log('voted:', response.vote);
+                console.log('response: ', response);
+                $.post({
+                    url: '/generate-image',
+                    data: {"clear": true, "random-gen": true},
+                    success: function(response){
+                        console.log('set new random image:', response.img);
+                        console.log('set new random gallary:', response.recent1);
+                        console.log('name:', response.gen_name);
+                        console.log('act order:', response.gen_act); 
+                        $("#main-img").attr('src', response.img);
+                        $("#recent0").attr('src', response.recent1);
+                        $("#recent1").attr('src', response.recent2);
+                        $("#recent2").attr('src', response.recent3);
+                        $("#recent3").attr('src', response.recent4);
+                        $("#recent4").attr('src', response.recent5);
+                        $("#recent5").attr('src', response.recent6);
+                        console.log('setting 8 images: ', response.recent9);
+                    },
+                    error: function(error){
+                        alert(response);
+                        console.log(error);
+                    }
+                });
             },
             error: function(error){
                 alert(response);
@@ -430,7 +452,29 @@ random_gen_btn.onclick = function() {
             url: '/vote-image',
             data: {"vote": 0},
             success: function(response){
-                console.log('voted:', response.vote);
+                console.log('response: ', response);
+                $.post({
+                    url: '/generate-image',
+                    data: {"clear": true, "random-gen": true},
+                    success: function(response){
+                        console.log('set new random image:', response.img);
+                        console.log('set new random gallary:', response.recent1);
+                        console.log('name:', response.gen_name);
+                        console.log('act order:', response.gen_act); 
+                        $("#main-img").attr('src', response.img);
+                        $("#recent0").attr('src', response.recent1);
+                        $("#recent1").attr('src', response.recent2);
+                        $("#recent2").attr('src', response.recent3);
+                        $("#recent3").attr('src', response.recent4);
+                        $("#recent4").attr('src', response.recent5);
+                        $("#recent5").attr('src', response.recent6);
+                        console.log('setting 8 images: ', response.recent9);
+                    },
+                    error: function(error){
+                        alert(response);
+                        console.log(error);
+                    }
+                });
             },
             error: function(error){
                 alert(response);
