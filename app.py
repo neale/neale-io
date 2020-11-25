@@ -87,6 +87,38 @@ def cppn_viewer():
                                  'landing_sm': session['landing_img_sm']},
                            slider_vals=slider_vals)
 
+@app.route('/cppn-simple')
+def cppn_viewer_simple():
+    # start CPPN 
+    if 'uid' not in session.keys():
+        uid = np.random.randint(int(1e9))
+        session['uid'] = uid
+    if 'cppn_config' not in session.keys():
+        print('creating cppn config')
+        session['cppn_config'] = {
+                'z_dim'    : 4,
+                'n_samples': 6,
+                'x_dim': 512,
+                'y_dim': 512,
+                'c_dim': 3,
+                'batch_size': 16,
+                'z_scale': 4,
+                'layer_width': 4,
+                'interpolation': 10,
+                'exp_name': 'static/assets/cppn_images',
+                'seed': None,
+                'seed_gen': 1234567890,
+                'uid': session['uid'],
+                }
+        session['curr_img_idx'] = 0
+    session['landing_img'] = 'images/12.png'
+    session['landing_img_sm'] = 'images/12_sm.png'
+    session['last_act_order'] = []
+
+    return render_template('cppn-simple.html',
+            data={'landing': session['landing_img'],
+                'landing_sm': session['landing_img_sm']})
+
 
 def sort_fn_nums(fns):
     """Sorts files and returns the largest, smallest values according
