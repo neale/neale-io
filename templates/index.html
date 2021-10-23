@@ -25,17 +25,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#157878">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="static/index.css">
+    <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-    <a id="skip-to-content" href="#content">Skip to the content.</a>
-
     <header class="page-header" role="banner">
       <h1 class="project-name">Neale Ratzlaff</h1>
       <h2 class="project-tagline">Implicit is Sometimes Better than Explicit</h2>
       
       
-      <a href="#" class="image-avatar"> <img src="static/images/selfpic_circle.png" width=alt=""></a>
+      <a href="#" class="image-avatar"> <img src="images/selfpic_circle.png" width=alt=""></a>
     </header>
 
     <main id="content" class="main-content" role="main">
@@ -47,7 +45,7 @@ I’m broadly interested in implicit variational inference, generative models, u
 <p>Currently I’m interested in leveraging particle-based variational inference to create better Bayesian neural networks. We can learn these intractable distributions even for complex neural networks. The resulting distributions have numerous benefits over single models, and even bootstrapped ensembles.</p>
 
 <p>I’ve worked at <a href="https://horizon.ai/">Horizon Robotics</a>, <a href="https://vimeo.com/170280447">Intel</a>, and <a href="https://www.tek.com/">Tektronix</a></p>
-<div style="text-align:center"><img src="static/images/horizon_logo.png" /> <img src="static/images/intel_logo.png" /> <img src="static/images/tek_logo.png" /> </div>
+<div style="text-align:center"><img src="images/horizon_logo.png" /> <img src="images/intel_logo.png" /> <img src="images/tek_logo.png" /> </div>
 
 <h1 id="papers">Papers</h1>
 
@@ -61,7 +59,7 @@ I’m broadly interested in implicit variational inference, generative models, u
 
 <p>We introduce a new method for Bayesian deep learning: GPVI, that fuses the flexibility of particle-based variational methods, with the efficiency of generative samplers. We construct a neural sampler that is trained with the functional gradient of the KL-divergence between the empirical sampling distribution and the target distribution. We show that GPVI accurately models the posterior distribution when applied to density estimation and Bayesian neural networks. This work also features a new method for estimating the inverse of the input-output jacobian without invertibility restrictions.</p>
 
-<div style="text-align:center"><img src="static/images/2class-sin.png" /></div>
+<div style="text-align:center"><img src="images/2class-sin.png" /></div>
 
 <hr />
 
@@ -75,7 +73,7 @@ I’m broadly interested in implicit variational inference, generative models, u
 
 <p>We introduce reinforcement learning agents that can accomplish goals without incurring side effects. Standard RL agents collect reward at any cost, often unsustainably ruining the environment around them. The attainable utility penalty (AUP) penalizes agents for acting in a way that decreases in their ability to achieve unknown future goals. We extend AUP to the deep RL case, and show that our AUP agents can act in difficult environments with stochastic dynamics, without incurring side effects.</p>
 
-<div style="text-align:center"><img src="static/images/aup_paper.png" /></div>
+<div style="text-align:center"><img src="images/aup_paper.png" /></div>
 
 <hr />
 
@@ -85,7 +83,7 @@ I’m broadly interested in implicit variational inference, generative models, u
 
 <p>We model uncertainty estimation as an intrinsic reward for efficient exploration. We introduce an implicit generative modeling approach to estimate a Bayesian uncertainty of the agent’s belief of theenvironment dynamics.  We approximate the posterior through multiple draws from our generative model. The variance of the dynamic models’ output is used as an intrinsic reward for exploration. We design a training algorithm for our generative model based on amortized Stein Variational Gradient Descent, to ensure the parameter distribution is a nontrivial approximation to the true posterior.</p>
 
-<div style="text-align:center"><img src="static/images/RLpaper_hypergan.png" /></div>
+<div style="text-align:center"><img src="images/RLpaper_hypergan.png" /></div>
 
 <hr />
 
@@ -101,7 +99,7 @@ I’m broadly interested in implicit variational inference, generative models, u
 The generated model parameters achieve high accuracy, yet are distinct with different predictive distributions. 
 We enforce diversity by regularizing the intermediate representations to be well-distributed, while not harming the flexibility of the output distribution.</p>
 
-<div style="text-align:center"><img src="static/images/hypergan.png" /></div>
+<div style="text-align:center"><img src="images/hypergan.png" /></div>
 
 <hr />
 
@@ -113,7 +111,7 @@ We enforce diversity by regularizing the intermediate representations to be well
 
 <p>We use an adaptive bilateral filter to smooth the purturbations left by adversarial attacks. We view our method as a piecewise projection of the high frequency perturbations, back to the natural image manifold. Our method is simple, effective, and practical, unlike many other projection defenses</p>
 
-<p><img src="static/images/BFNet.png" alt="BFNet" /></p>
+<p><img src="images/BFNet.png" alt="BFNet" /></p>
 
 <hr />
 
@@ -121,7 +119,7 @@ We enforce diversity by regularizing the intermediate representations to be well
 
 <h3 id="methods-for-detection-and-recovery-of-out-of-distribution-examples-ms-degree-computer-science-oregon-state-university-2018"><a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/mw22vb88d">Methods for Detection and Recovery of Out-of-Distribution Examples.</a> M.S. Degree Computer Science. Oregon State University (2018)</h3>
 
-<div style="text-align:center"><img src="static/images/class.png" /> <img src="static/images/density.png" /> </div>
+<div style="text-align:center"><img src="images/class.png" /> <img src="images/density.png" /> </div>
 
 <hr />
 

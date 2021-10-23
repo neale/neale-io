@@ -48,30 +48,30 @@ def pretrain_loss(encoded, noise):
     return mean_loss, cov_loss
 
 
-def grad_penalty_1dim(args, netD, data, fake):
-    alpha = torch.randn(args.batch_size, 1, requires_grad=True).cuda()
-    alpha = alpha.expand(data.size()).cuda()
-    interpolates = alpha * data + ((1 - alpha) * fake).cuda()
+def grad_penalty_1dim(args, netD, data, fake, device):
+    alpha = torch.randn(args.batch_size, 1, requires_grad=True).to(device)
+    alpha = alpha.expand(data.size()).to(device)
+    interpolates = alpha * data + ((1 - alpha) * fake).to(device)
     disc_interpolates = netD(interpolates)
 
     gradients = autograd.grad(outputs=disc_interpolates, inputs=interpolates,
-            grad_outputs=torch.ones(disc_interpolates.size()).cuda(),
+            grad_outputs=torch.ones(disc_interpolates.size()).to(device),
             create_graph=True, retain_graph=True, only_inputs=True)[0]
 
     gradient_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * args.l
     return gradient_penalty
 
 
-def grad_penalty_3dim(args, netD, data, fake):
+def grad_penalty_3dim(args, netD, data, fake, device):
     out_size = int(np.sqrt(args.output//3))
-    alpha = torch.randn(args.batch_size, 1, requires_grad=True).cuda()
+    alpha = torch.randn(args.batch_size, 1, requires_grad=True).to(device)
     alpha = alpha.expand(args.batch_size, data.nelement()/args.batch_size)
     alpha = alpha.contiguous().view(args.batch_size, 3, out_size, out_size)
-    interpolates = alpha * data + ((1 - alpha) * fake).cuda()
+    interpolates = alpha * data + ((1 - alpha) * fake).to(device)
     disc_interpolates = netD(interpolates)
 
     gradients = autograd.grad(outputs=disc_interpolates, inputs=interpolates,
-            grad_outputs=torch.ones(disc_interpolates.size()).cuda(),
+            grad_outputs=torch.ones(disc_interpolates.size()).to(device),
             create_graph=True, retain_graph=True, only_inputs=True)[0]
     gradients = gradients.view(gradients.size(0), -1)
     gradient_penalty = ((gradients.norm(2, dim=1) - 1) ** 2).mean() * args.l

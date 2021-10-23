@@ -18,8 +18,8 @@ def create_d(shape):
     return D
 
 
-def sample_d(D, shape, scale=1., grad=True):
-    z = scale * D.sample((shape,)).cuda()
+def sample_d(D, shape, scale=1., grad=True, device):
+    z = scale * D.sample((shape,)).to(device)
     z.requires_grad = grad
     return z
 
@@ -102,9 +102,9 @@ def generate_ae_image(args, iter, netG, netE, real_data):
     save_images(samples, path)
 
 
-def generate_image(args, iter, netG):
+def generate_image(args, iter, netG, device):
     with torch.no_grad():
-        noise = torch.randn(args.batch_size, args.z, requires_grad=True).cuda()
+        noise = torch.randn(args.batch_size, args.z, requires_grad=True).to(device)
         samples = netG(noise)
     if samples.dim() < 4:
         channels = 1

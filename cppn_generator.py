@@ -32,8 +32,7 @@ class Generator(nn.Module):
         self.linear_out = nn.Linear(self.layer_width, self.c_dim)
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, inputs):
-        x, y, z, r = inputs
+    def forward(self, x, y, z, r):
         n_points = self.x_dim * self.y_dim
         ones = torch.ones(n_points, 1, dtype=torch.float)
         z_scaled = z.view(self.batch_size, 1, self.z_dim) * ones * self.scale_z

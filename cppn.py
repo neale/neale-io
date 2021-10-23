@@ -1,5 +1,6 @@
 import os
 import sys
+import glob
 import argparse
 import numpy as np
 import torch
@@ -12,6 +13,7 @@ from imageio import imwrite, imsave
 import logging
 
 from cppn_generator import Generator
+torch.backends.cudnn.benchmark = True
 
 logging.getLogger().setLevel(logging.ERROR)
 
@@ -23,7 +25,7 @@ class CPPN(object):
                  n_samples=1,
                  x_dim=512,
                  y_dim=512,
-                 c_dim=1,
+                 c_dim=3,
                  z_scale=10,
                  layer_width=32,
                  batch_size=1,
@@ -33,6 +35,8 @@ class CPPN(object):
                  name_style='params',
                  walk=False,
                  sample=True,
+                 uid='1234',
+                 seed=123456789,
                  init_at_startup=False):
         self.z_dim = z_dim
         self.n_samples = n_samples
@@ -48,39 +52,31 @@ class CPPN(object):
         self.name_style = name_style
         self.walk = walk
         self.sample = sample
+        self.uid = uid
         
-        self.seed_gen = 1234567890
-        self._init_random_seed()
+        self.seed_gen = seed
+        self.init_random_seed()
         self._init_paths()
         
         if init_at_startup:
             self.init_generator()
         else:
             self.generator = None
-        print (self.generator)
 
-    def _init_random_seed(self):
+    def init_random_seed(self):
+        """ 
+        initializes random seed for numpy and torch. Random seed needs
+            to be a stored value so that we can save the right metadata. 
+            This is not to be confused with the uid that is not a seed, 
+            which is how we do storage
+        """
         self.seed = np.random.randint(self.seed_gen)
         np.random.seed(self.seed)
         torch.manual_seed(self.seed)
 
-
     def _init_paths(self):
-        if not os.path.exists('./trials/'):
-            os.makedirs('./trials/')
-
-        if not os.path.exists('trials/'+ self.exp_name):
-            os.makedirs('trials/'+ self.exp_name)
-        else:
-            path = self.exp_name
-            while os.path.exists('trials/'+ path):
-                response = input('Exp Directory Exists, rename (y/n/overwrite):\t')
-                if response == 'y':
-                    path = input('New Exp Directory Name:\t')
-                elif response == 'overwrite':
-                    break
-            os.makedirs('trials/'+path, exist_ok=True)
-            self.exp_name = path
+        if not os.path.exists(self.exp_name+'/'+str(self.uid)):
+            os.makedirs(self.exp_name+'/'+str(self.uid))
 
     def _init_weights(self, model):
         for layer in model.modules():
@@ -91,7 +87,7 @@ class CPPN(object):
     def init_generator(self):
         generator = Generator(self.z_dim,
             self.c_dim, self.x_dim, self.y_dim, self.layer_width, self.z_scale, self.batch_size)
-        self.generator = self._init_weights(generator) 
+        self.generator = torch.jit.script(self._init_weights(generator)).eval()
 
     def init_inputs(self):
         zs = []
@@ -107,9 +103,9 @@ class CPPN(object):
         x_mat = np.matmul(np.ones((y_dim, 1)), x_range.reshape((1, x_dim)))
         y_mat = np.matmul(y_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
         r_mat = np.sqrt(x_mat*x_mat + y_mat*y_mat)
-        x_mat = np.tile(x_mat.flatten(), args.batch_size).reshape(self.batch_size, n_points, 1)
-        y_mat = np.tile(y_mat.flatten(), args.batch_size).reshape(self.batch_size, n_points, 1)
-        r_mat = np.tile(r_mat.flatten(), args.batch_size).reshape(self.batch_size, n_points, 1)
+        x_mat = np.tile(x_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
+        y_mat = np.tile(y_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
+        r_mat = np.tile(r_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
         x_mat = torch.from_numpy(x_mat).float()
         y_mat = torch.from_numpy(y_mat).float()
         r_mat = torch.from_numpy(r_mat).float()
@@ -127,8 +123,9 @@ class CPPN(object):
             raise NotImplementedError
 
     def sample_frame(self, z):
-        x_vec, y_vec, r_vec = self._coordinates()
-        frame = self.generator((x_vec, y_vec, z, r_vec))
+        with torch.no_grad():
+            x_vec, y_vec, r_vec = self._coordinates()
+            frame = self.generator(x_vec, y_vec, z, r_vec)
         return frame
 
 
@@ -138,14 +135,14 @@ class CPPN(object):
         states = []
         for i in range(total_frames):
             z = z1 + delta * float(i)
-            if args.c_dim == 1:
+            if self.c_dim == 1:
                 states.append(self.sample_frame(z)[0]*255)
             else:
                 states.append(self.sample_frame(z)[0]*255)
         states = torch.stack(states).detach().numpy()
         return states
     
-def run_cppn(cppn):
+def run_cppn(cppn, uid, autosave=False):
     if cppn.name_style == 'simple':
         suff = 'image'
     if cppn.name_style == 'params':
@@ -153,23 +150,26 @@ def run_cppn(cppn):
             cppn.z_dim, cppn.z_scale, cppn.c_dim, cppn.layer_width)
 
     zs = cppn.init_inputs()
-
+    # get file number
+    n_files = len(glob.glob(f"{cppn.exp_name}/{uid}/*.png"))
     if cppn.walk:
-        k = 0
+        print(f"Initializing Walk for {uid}")
+        k = n_files
         for i in range(cppn.n_samples):
             if i+1 not in range(cppn.n_samples):
                 samples = cppn.latent_walk(zs[i], zs[0])
                 break
             samples = cppn.latent_walk(zs[i], zs[i+1])
-
             for sample in samples:
-                save_fn = 'trials/{}/{}_{}'.format(cppn.exp_name, suff, k)
-                print ('saving PNG image at: {}'.format(save_fn))
-                cppn._write_image(path=save_fn, x=sample, suffix='PNG')
+                if autosave:
+                    save_fn = '{}/{}/{}_{}'.format(cppn.exp_name, uid, suff, k)
+                    print ('saving PNG image at: {}'.format(save_fn))
+                    cppn._write_image(path=save_fn, x=sample, suffix='PNG')
                 k += 1
             print ('walked {}/{}'.format(i+1, cppn.n_samples))
 
     elif cppn.sample:
+        print(f"Initializing Sample for {uid}")
         zs, _ = torch.stack(zs).sort()
         for i, z in enumerate(zs):
             sample = cppn.sample_frame(z).cpu().detach().numpy()
@@ -183,11 +183,15 @@ def run_cppn(cppn):
                     scale=str(cppn.z_scale),
                     net=str(cppn.layer_width))
 
-            save_fn = 'trials/{}/{}_{}'.format(cppn.exp_name, suff, i)
-            print ('saving TIFF/PNG image pair at: {}'.format(save_fn))
-            cppn._write_image(path=save_fn, x=sample.astype('u1'), suffix='TIF',
-                metadata=metadata)
-            cppn._write_image(path=save_fn, x=sample, suffix='PNG')
+            if autosave:
+                i += n_files
+                save_fn = '{}/{}/{}_{}'.format(cppn.exp_name, uid, suff, i)
+                print ('saving TIFF/PNG image pair at: {}'.format(save_fn))
+                cppn._write_image(path=save_fn, x=sample, suffix='PNG')
+                cppn._write_image(path=save_fn, x=sample.astype('u1'), suffix='TIF',
+                        metadata=metadata)
+
+        return sample, suff
     
 def load_args():
 
