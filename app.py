@@ -1,3 +1,4 @@
+import os
 import re
 import csv
 import json, jsonify
@@ -22,8 +23,15 @@ def init_cppn(uid):
     return CPPN(**session['cppn_config'])
     
 
-@app.route('/')
+@app.route('/home')
 def home():
+    print ('home')
+    try:
+        clear_images(session['uid'], 'png')
+        clear_images(session['uid'], 'tiff')
+    except Exception as e:
+        print (e)
+
     return render_template("index.html")
 
 
@@ -82,32 +90,63 @@ def sort_fn_nums(fns):
     return f_min, f_max
 
 
+def clear_images(uid, suffix='png'):
+    assert suffix in ['png', 'tiff']
+    sample_dir = 'static/assets/cppn_images/{}'.format(uid)
+    if suffix == 'png':
+        img_in_dir = glob('{}/*.png'.format(sample_dir))
+    elif suffix == 'tiff':
+        img_in_dir = glob('{}/*.tiff'.format(sample_dir))
+    print (f'clearing {suffix} files')
+    for image in img_in_dir:
+        os.remove(image)
+
+
+def run_image(cppn, uid, autosave):
+    sample, fn_suff = run_cppn(cppn, uid, autosave=autosave)
+    return sample, fn_suff
+
+
+@app.route('/generate-image-random', methods=['GET', 'POST'])
+def generate_image_random():
+    pass
+
 @app.route('/generate-image', methods=['GET', 'POST'])
 def generate_image():
     """
     Generates and renders a single image (no ajax jet so page is refreshed)
     """
+    autosave = True
     if request.method == 'GET':
         return redirect("/cppn")
 
     elif request.method == 'POST':
-        print ('gen iamge', session['cppn_config'])
+        if 'cppn_config' not in session.keys():
+            return redirect("/cppn")
+        
+        print ('gen image', session['cppn_config'])
         cppn = init_cppn(uid=session['uid'])
         if cppn.generator is None:
             cppn.init_generator()
         uid = session['uid']
-        print ('running with Z', cppn.z_dim)
-        sample, fn_suff = run_cppn(cppn, uid, autosave=True)
-
-        assert sample is not None, "sample is None"
         sample_dir = 'static/assets/cppn_images/{}'.format(uid)
+        print ('running with Z', cppn.z_dim)
+        if len(glob('{}/*.png'.format(sample_dir))) > 100:
+            clear_images(uid, 'png') 
+            clear_images(uid, 'tiff') 
+        sample, fn_suff = run_image(cppn, uid, autosave)
+        assert sample is not None, "sample is None"
+        if not autosave: # image did not get saved under unique ID
+            path = f'{cppn.exp_name}/{cppn.uid}/sample'
+            print (f'saving sample to path: {path}')
+            cppn._write_image(path=path, x=sample, suffix='PNG')
         images_in_dir = glob('{}/*.png'.format(sample_dir))
         if len(images_in_dir) > 1:
             _, latest_image = sort_fn_nums(images_in_dir)
         else:
             latest_image = images_in_dir[0]
+        print (f'new image from _generate_image: {latest_image}')
         latest_image = latest_image.split('static/')[1]
-        print (latest_image)
         return jsonify({'img': latest_image})
 
     else:
@@ -133,21 +172,21 @@ def slider_control():
             print ('changed to: ', session['cppn_config']['z_dim'])
             return jsonify({'z': new_z})
 
-        elif request.form.get('net_width_range'):
+        if request.form.get('net_width_range'):
             new_width = int(request.form.get('net_width_range'))
             if new_width != session['cppn_config']['layer_width']:
                 session['cppn_config']['layer_width'] = new_width
                 session.modified = True
             return jsonify({'net_width': new_width})
 
-        elif request.form.get('z_scale_range'):
+        if request.form.get('z_scale_range'):
             new_z_scale = float(request.form.get('z_scale_range'))
             if new_z_scale != session['cppn_config']['z_scale']:
                 session['cppn_config']['z_scale'] = new_z_scale
                 session.modified = True
             return jsonify({'z_scale': new_z_scale})
 
-        elif request.form.get('interpolation_range'):
+        if request.form.get('interpolation_range'):
             new_interpolate = int(request.form.get('interpolation_range'))
             if new_interpolate != session['cppn_config']['interpolation']:
                 session['cppn_config']['interpolation'] = new_interpolate
@@ -160,6 +199,10 @@ def slider_control():
 @app.route("/<name>")
 def user(name):
     return redirect("/")
+
+@app.route("/")
+def root():
+    return redirect("/home")
 
 
 if __name__ == '__main__':
