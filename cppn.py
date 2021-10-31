@@ -5,6 +5,8 @@ import argparse
 import numpy as np
 import torch
 import torch.nn as nn
+import torchvision
+import cv2
 
 import tifffile
 from imageio import imwrite, imsave
@@ -22,13 +24,15 @@ class CPPN(object):
     """initializes a CPPN"""
     def __init__(self,
                  z_dim=8,
-                 n_samples=1,
+                 n_samples=16,
                  x_dim=512,
                  y_dim=512,
+                 x_dim_gallary=128,
+                 y_dim_gallary=128,
                  c_dim=3,
                  z_scale=10,
                  layer_width=32,
-                 batch_size=1,
+                 batch_size=16,
                  interpolation=10,
                  reinit_freq=10,
                  exp_name='.',
@@ -43,6 +47,8 @@ class CPPN(object):
         self.x_dim = x_dim
         self.y_dim = y_dim
         self.c_dim = c_dim 
+        self.x_dim_gallary = x_dim_gallary
+        self.y_dim_gallary = y_dim_gallary
         self.z_scale = z_scale
         self.layer_width = layer_width
         self.batch_size = batch_size
@@ -65,13 +71,14 @@ class CPPN(object):
 
     def init_random_seed(self):
         """ 
-        initializes random seed for numpy and torch. Random seed needs
+        initializes random seed for torch. Random seed needs
             to be a stored value so that we can save the right metadata. 
             This is not to be confused with the uid that is not a seed, 
-            which is how we do storage
+            rather how we associate user sessions with data
         """
+        print ('initing with seed gen: {}'.format(self.seed_gen))
         self.seed = np.random.randint(self.seed_gen)
-        np.random.seed(self.seed)
+        # np.random.seed(self.seed)
         torch.manual_seed(self.seed)
 
     def _init_paths(self):
@@ -85,47 +92,54 @@ class CPPN(object):
         return model
 
     def init_generator(self):
-        generator = Generator(self.z_dim,
-            self.c_dim, self.x_dim, self.y_dim, self.layer_width, self.z_scale, self.batch_size)
-        self.generator = torch.jit.script(self._init_weights(generator)).eval()
+        generator = Generator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
+        self.generator = torch.jit.script(self._init_weights(generator))
+        self.generator.eval()
 
-    def init_inputs(self):
-        zs = []
-        for _ in range(self.n_samples):
-            zs.append(torch.zeros(1, self.z_dim).uniform_(-1.0, 1.0))
-        return zs
+    def init_inputs(self, batch_size=None):
+        if batch_size is None:
+            batch_size = self.batch_size
+        return torch.ones(batch_size, 1, self.z_dim).uniform_(-1., 1.)
 
-    def _coordinates(self):
-        x_dim, y_dim, scale = self.x_dim, self.y_dim, self.z_scale
-        n_points = x_dim * y_dim
+    def _coordinates(self, x_dim, y_dim, batch_size):
+        x_dim, y_dim, scale = x_dim, y_dim, self.z_scale
+        n_pts = x_dim * y_dim
         x_range = scale*(np.arange(x_dim)-(x_dim-1)/2.0)/(x_dim-1)/0.5
         y_range = scale*(np.arange(y_dim)-(y_dim-1)/2.0)/(y_dim-1)/0.5
         x_mat = np.matmul(np.ones((y_dim, 1)), x_range.reshape((1, x_dim)))
         y_mat = np.matmul(y_range.reshape((y_dim, 1)), np.ones((1, x_dim)))
         r_mat = np.sqrt(x_mat*x_mat + y_mat*y_mat)
-        x_mat = np.tile(x_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
-        y_mat = np.tile(y_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
-        r_mat = np.tile(r_mat.flatten(), self.batch_size).reshape(self.batch_size, n_points, 1)
-        x_mat = torch.from_numpy(x_mat).float()
-        y_mat = torch.from_numpy(y_mat).float()
-        r_mat = torch.from_numpy(r_mat).float()
-        return x_mat, y_mat, r_mat
+        x_vec = np.tile(x_mat.flatten(), batch_size).reshape(batch_size*n_pts, -1)
+        y_vec = np.tile(y_mat.flatten(), batch_size).reshape(batch_size*n_pts, -1)
+        r_vec = np.tile(r_mat.flatten(), batch_size).reshape(batch_size*n_pts, -1)
 
-    def _write_image(self, path, x, suffix='PNG', metadata=None):
-        if suffix == 'PNG':
-            path = path + '.png'
-            imwrite(path, x)
-        elif suffix == 'TIF':
-            assert metadata is not None, "metadata must be included for tiff file saving"
+        x_vec = torch.from_numpy(x_vec).float()
+        y_vec = torch.from_numpy(y_vec).float()
+        r_vec = torch.from_numpy(r_vec).float()
+
+
+        return x_vec, y_vec, r_vec, n_pts
+
+    def _write_image(self, path, x, suffix='jpg', metadata=None):
+        if suffix in ['jpg', 'png']:
+            path = path + f'.{suffix}'
+            cv2.imwrite(path, x)
+            print (path)
+        elif suffix == 'tif':
+            assert metadata is not None, "metadata must be included to save tif"
             path = path + '.tif'
             tifffile.imsave(path, x, metadata=metadata)
         else:
             raise NotImplementedError
 
-    def sample_frame(self, z):
+    def sample_frame(self, z, x_dim, y_dim, batch_size):
         with torch.no_grad():
-            x_vec, y_vec, r_vec = self._coordinates()
-            frame = self.generator(x_vec, y_vec, z, r_vec)
+            x_vec, y_vec, r_vec, n_pts = self._coordinates(x_dim, y_dim, batch_size)
+            one_vec = torch.ones(n_pts, 1, dtype=torch.float)
+            z_scale = z.view(batch_size, 1, self.z_dim) * one_vec * self.z_scale
+            z_scale = z_scale.view(batch_size*n_pts, self.z_dim)
+            frame = self.generator(x_vec, y_vec, z, r_vec, z_scale)
+            frame = frame.reshape(batch_size, y_dim, x_dim, self.c_dim)
         return frame
 
 
@@ -141,6 +155,7 @@ class CPPN(object):
                 states.append(self.sample_frame(z)[0]*255)
         states = torch.stack(states).detach().numpy()
         return states
+
     
 def run_cppn(cppn, uid, autosave=False):
     if cppn.name_style == 'simple':
@@ -148,10 +163,9 @@ def run_cppn(cppn, uid, autosave=False):
     if cppn.name_style == 'params':
         suff = 'z-{}_scale-{}_cdim-{}_net-{}'.format(
             cppn.z_dim, cppn.z_scale, cppn.c_dim, cppn.layer_width)
-
-    zs = cppn.init_inputs()
+    z_batch = cppn.init_inputs(batch_size=9)
     # get file number
-    n_files = len(glob.glob(f"{cppn.exp_name}/{uid}/*.png"))
+    n_files = len(glob.glob(f"{cppn.exp_name}/{uid}/*.jpg"))
     if cppn.walk:
         print(f"Initializing Walk for {uid}")
         k = n_files
@@ -163,35 +177,44 @@ def run_cppn(cppn, uid, autosave=False):
             for sample in samples:
                 if autosave:
                     save_fn = '{}/{}/{}_{}'.format(cppn.exp_name, uid, suff, k)
-                    print ('saving PNG image at: {}'.format(save_fn))
-                    cppn._write_image(path=save_fn, x=sample, suffix='PNG')
+                    print (f'saving JPG image at: {save_fn}')
+                    cppn._write_image(path=save_fn, x=sample, suffix='jpg')
                 k += 1
             print ('walked {}/{}'.format(i+1, cppn.n_samples))
 
     elif cppn.sample:
-        print(f"Initializing Sample for {uid}")
-        zs, _ = torch.stack(zs).sort()
-        for i, z in enumerate(zs):
-            sample = cppn.sample_frame(z).cpu().detach().numpy()
-            sample = sample[0]
-            sample = sample * 255
+        print(f"Initializing Sample for UID: {uid}")
+        z = z_batch[0].unsqueeze(0)
+        sample = cppn.sample_frame(z, cppn.x_dim, cppn.y_dim, batch_size=1)
+        sample = sample[0].numpy() * 255.
 
+        #print(f"Initializing Batch Sample for {uid}")
+        #batch_sample = cppn.sample_frame(
+        #    z_batch, cppn.x_dim_gallary, cppn.y_dim_gallary, batch_size=10)
+        #batch_sample = batch_sample.numpy() * 255.
+        batch_samples = []
+        for z_i in z_batch:
+            batch_sample = cppn.sample_frame(
+                z_i, cppn.x_dim_gallary, cppn.y_dim_gallary, batch_size=1)
+            batch_sample = batch_sample[0].numpy() * 255.
+            batch_samples.append(batch_sample)
+
+        n = np.random.randint(99999999)
+        for i, (img, z_j) in enumerate(zip([sample, *batch_samples], [z, *z_batch])):
             metadata = dict(seed=str(cppn.seed),
-                    z_sample=str(list(z.numpy()[0])),
+                    z_sample=str(z_j.numpy().reshape(-1).tolist()),
                     z=str(cppn.z_dim), 
                     c_dim=str(cppn.c_dim),
                     scale=str(cppn.z_scale),
                     net=str(cppn.layer_width))
-
             if autosave:
-                i += n_files
-                save_fn = '{}/{}/{}_{}'.format(cppn.exp_name, uid, suff, i)
-                print ('saving TIFF/PNG image pair at: {}'.format(save_fn))
-                cppn._write_image(path=save_fn, x=sample, suffix='PNG')
-                cppn._write_image(path=save_fn, x=sample.astype('u1'), suffix='TIF',
-                        metadata=metadata)
+                save_fn = f'{cppn.exp_name}/{uid}/temp/{n}{suff}_{i}'
+                #print ('saving TIFF/PNG image pair at: {}'.format(save_fn))
+                cppn._write_image(path=save_fn, x=img, suffix='jpg')
+                cppn._write_image(path=save_fn, x=img.astype('u1'), suffix='tif',
+                    metadata=metadata)
 
-        return sample, suff
+        return (sample, batch_samples), suff
     
 def load_args():
 

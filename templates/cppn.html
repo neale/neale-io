@@ -12,73 +12,156 @@ Controlled Pattern Producing Network
 
 <!-- main image container -->
 <div class="image-viewer-container" style="width:100%;">
-	<div class="image-viewer-border">
-		<div class="main-image-viewer">
-				<img id="main-img" src="{{ url_for('static', filename=data) }}" class="img-main" alt="">
-		</div>
+    <div class="image-viewer-border">
+	<div class="main-image-viewer">
+	    <img id="main-img" src="{{ url_for('static', filename=data) }}" class="img-main" alt="">
 	</div>
+    </div>
 
   <!-- buttons for controlling cppn, wired to backend -->
-  <div class="button-container" style="width:100%;">
+    <div class="button-container" style="width:100%;">
     <!-- generate image with current settings -->
-    <button 
-			type="button"
-			id="generate-btn"
-      onclick="window.location.href='{{ url_for('generate_image') }}'"
-      class="btn btn-lg btn-primary btn-spacing btn-width btn-size">
-        Generate
-    </button>
+        <button 
+	    type="button"
+            id="generate-btn"
+            onclick="window.location.href='{{ url_for('generate_image') }}'"
+            class="btn btn-lg btn-primary btn-spacing btn-width btn-size">
+            Generate
+        </button>
     
-		<button type="button"
-				id='Next'
-			  class="btn btn-lg btn-secondary btn-spacing btn-width btn-size">
-					Next
-		</button>
+	<button 
+            type="button"
+            id='next-btn'
+            onclick="window.location.href='{{ url_for('regenerate_image') }}'"
+	    class="btn btn-lg btn-secondary btn-spacing btn-width btn-size">
+	    Next
+	</button>
 
-		<button type="button" class="btn btn-lg btn-success btn-spacing btn-width btn-size">Prev</button>
-		<button type="button" class="btn btn-lg btn-danger btn-spacing btn-width btn-size">Reset</button>
-		<button type="button" class="btn btn-lg btn-warning btn-spacing btn-width btn-size">Random</button>
-
-  </div>
+        <button 
+            type="button" 
+            id='prev-btn'
+            onclick="window.location.href='{{ url_for('regenerate_image') }}'"
+            class="btn btn-lg btn-success btn-spacing btn-width btn-size">
+            Prev
+        </button>
+        <button 
+            type="button"
+            id="random-btn"
+            onclick="window.location.href='{{ url_for('generate_image') }}'"
+            class="btn btn-lg btn-warning btn-spacing btn-width btn-size">
+            Random
+        </button>
+    
+    </div>
 <!-- sliders for configuring input values -->
-  <div class="slider-container" style="width:100%;">
+    <div class="slider-container" style="width:100%;">
+        <div class="slidecontainer-z">
+            <label for="z_range" class="form-label">Z Dimension</label>
+            <input type="range" class="form-range" min="1" max="32" id="z_range" value="{{ slider_vals['z_slider_init'] }}"a>
+            <label id='z_range_slider_amount'>{{ slider_vals['z_slider_init'] }}</label>
+            <output id="output_z"></output>
+        </div>
 
-    <div class="slidecontainer-z">
-			<label for="z_range" class="form-label">Z Dimension</label>
-      <input type="range" class="form-range" min="1" max="32" id="z_range" value="{{ slider_vals['z_slider_init'] }}">
-      <label id='z_range_slider_amount'>{{ slider_vals['z_slider_init'] }}</label>
+        <div class="slidecontainer-net-width">
+            <label for="net_width_range" class="form-label">Net Width</label>
+            <input type="range" class="form-range" min="2" max="128" step="2" id="net_width_range">
+            <label id='net_width_range_slider_amount'>{{ slider_vals['layer_width_slider_init'] }}</label>
+            <output id="output_net"></output>
+        </div>
+
+        <div class="slidecontainer-z-scale">
+            <label for="z_scale_range" class="form-label">Z Scale</label>
+            <input type="range" class="form-range" min="0.00" max="256" step="1" id="z_scale_range">
+            <label id='z_scale_range_slider_amount'>{{ slider_vals['z_scale_slider_init'] }}</label>
+            <output id="output_scale"></output>
+        </div>
+
+        <div class="slidecontainer-interpolation">
+            <label for="interpolation_range" class="form-label">Interpolation</label>
+            <input type="range" class="form-range" min="1" max="20" step="1" id="interpolation_range">
+            <label id='interpolation_slider_amount'>{{ slider_vals['interpolation_range_init'] }}</label>
+        </div>
+
     </div>
-
-    <div class="slidecontainer-net-width">
-			<label for="net_width_range" class="form-label">Net Width</label>
-			<input type="range" class="form-range" min="2" max="128" step="2" id="net_width_range">
-      <label id='net_width_range_slider_amount'>{{ slider_vals['layer_width_slider_init'] }}</label>
+    <div class="recent-image-container">
+        <div class="recent-image-border">
+            <div class="recent-image-viewer">
+                <div class='col'>
+                    <img id="recent0"
+                       src="{{ url_for('static', filename=data) }}"
+                       class="img-main"
+                       alt="">
+                </div> 
+                <div class='col'>
+                    <img id="recent1"
+                        src="{{ url_for('static', filename=data) }}"
+                        class="img-main"
+                        alt="">
+                </div> 
+                <div class='col'>
+                    <img id="recent2"
+                        src="{{ url_for('static', filename=data) }}"
+                        class="img-main"
+                        alt="">
+                </div>
+                <div class='col'>
+                    <img id="recent3"
+                         src="{{ url_for('static', filename=data) }}"
+                         class="img-main"
+                         alt="">
+                </div> 
+                <div class='col'>
+                    <img id="recent4"
+                         src="{{ url_for('static', filename=data) }}"
+                         class="img-main"
+                         alt="">
+                </div> 
+                <div class='col'>
+                    <img id="recent5"
+                         src="{{ url_for('static', filename=data) }}"
+                         class="img-main"
+                         alt="">
+                </div>
+                <div class='col'>
+                    <img id="recent6"
+                         src="{{ url_for('static', filename=data) }}"
+                         class="img-main"
+                         alt="">
+                </div> 
+                <div class='col'>
+                    <img id="recent7"
+                         src="{{ url_for('static', filename=data) }}"
+                         class="img-main"
+                         alt="">
+                </div> 
+                <div class='col'>
+                    <img id="recent8"
+                         src="{{ url_for('static', filename=data) }}"
+                         class="img-main"
+                         alt="recent8">
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="slidecontainer-z-scale">
-			<label for="z_scale_range" class="form-label">Z Scale</label>
-			<input type="range" class="form-range" min="0.01" max="20" step="0.1" id="z_scale_range">
-      <label id='z_scale_range_slider_amount'>{{ slider_vals['z_scale_slider_init'] }}</label>
-    </div>
-
-    <div class="slidecontainer-interpolation">
-			<label for="interpolation_range" class="form-label">Interpolation</label>
-			<input type="range" class="form-range" min="1" max="20" step="1" id="interpolation_range">
-      <label id='interpolation_slider_amount'>{{ slider_vals['interpolation_range_init'] }}</label>
-    </div>
-
-  </div>
 </div>
 <script>
-  var generate_btn = document.getElementById('generate-btn'),
-               img = document.getElementById("main-img");
+  var generate_btn = document.getElementById('generate-btn');
   generate_btn.onclick = function() {
     $.post({
       url: '/generate-image',
-      data: {"_": this.value},
+      data: {"_": 0},
       success: function(response){
         console.log('set new image:', response.img);
         $("#main-img").attr('src', response.img);
+        $("#recent0").attr('src', response.recent1);
+        $("#recent1").attr('src', response.recent2);
+        $("#recent2").attr('src', response.recent3);
+        $("#recent3").attr('src', response.recent4);
+        $("#recent4").attr('src', response.recent5);
+        $("#recent5").attr('src', response.recent6);
+        $("#recent6").attr('src', response.recent7);
+        $("#recent7").attr('src', response.recent8);
+        $("#recent8").attr('src', response.recent9);
       },
       error: function(error){
         alert(response);
@@ -87,6 +170,117 @@ Controlled Pattern Producing Network
     });
 }
 </script>
+
+<script>
+    var next_btn = document.getElementById('next-btn');
+    next_btn.onclick = function() {
+    $.post({
+        url: '/regenerate-image',
+        data: {"increment": 1},
+        success: function(response){
+            console.log('Next: set new image:', response.img);
+            $("#main-img").attr('src', response.img);
+        },
+        error: function(error){
+            alert(response);
+            console.log(error);
+        }
+    });
+
+}
+</script>
+
+<script>
+    var prev_btn = document.getElementById('prev-btn');
+    prev_btn.onclick = function() {
+    $.post({
+        url: '/regenerate-image',
+        data: {"increment": -1},
+        success: function(response){
+            console.log('Prev new image:', response.img);
+            $("#main-img").attr('src', response.img);
+        },
+        error: function(error){
+            alert(response);
+            console.log(error);
+        }
+    });
+
+}
+</script>
+
+<script>
+    function randint(min, max) {
+        return Math.floor(Math.random() * (max - min) + min);
+    }
+    var random_btn = document.getElementById('random-btn');
+        img = document.getElementById("main-img"),
+        slide_z = document.getElementById('z_range'),
+        sliderDiv_z = document.getElementById("z_range_slider_amount"),
+        slide_net_width = document.getElementById('net_width_range'),
+        sliderDiv_net_width = document.getElementById("net_width_range_slider_amount"),
+        slide_z_scale = document.getElementById('z_scale_range'),
+        sliderDiv_z_scale = document.getElementById("z_scale_range_slider_amount");
+
+    random_btn.onclick = function() {
+        var z_rand = randint(1, 32);
+        var net_width_rand = randint(1, 64);
+        var scale_rand = randint(0, 256);
+        console.log('setting random settings:');
+        console.log('\tz dim:', z_rand);
+        console.log('\tnet width:', net_width_rand);
+        console.log('\tz scale:', scale_rand);
+
+        sliderDiv_z.innerHTML = z_rand;
+        sliderDiv_net_width.innerHTML = net_width_rand;
+        sliderDiv_z_scale.innerHTML = scale_rand;
+        
+        slide_z.value = z_rand;
+        slide_net_width.value = net_width_rand;
+        slide_z_scale.value = scale_rand;
+        
+        $.post({
+            url: "/slider-control",
+            data: {"z_range": z_rand,
+                   "net_width_range": net_width_rand,
+                   "z_scale_range": scale_rand},
+
+            success: function(response){
+                console.log('response: ', response);
+                console.log('new z:', response.z);
+                console.log('new width:', response.net_width);
+                console.log('new z scale:', response.z_scale);
+                $.post({
+                    url: '/generate-image',
+                    data: {"_": 0},
+                    success: function(response){
+                        console.log('set new random image:', response.img);
+                        console.log('set new random gallary:', response.recent1);
+                        $("#main-img").attr('src', response.img);
+                        $("#recent0").attr('src', response.recent1);
+                        $("#recent1").attr('src', response.recent2);
+                        $("#recent2").attr('src', response.recent3);
+                        $("#recent3").attr('src', response.recent4);
+                        $("#recent4").attr('src', response.recent5);
+                        $("#recent5").attr('src', response.recent6);
+                        $("#recent6").attr('src', response.recent7);
+                        $("#recent7").attr('src', response.recent8);
+                        $("#recent8").attr('src', response.recent9);
+                    },
+                    error: function(error){
+                        alert(response);
+                        console.log(error);
+                    }
+                });
+            },
+            error: function(error){
+                alert(response);
+                console.log(error);
+            }
+        });
+}
+</script>
+
 
 <script src="{{ url_for('static', filename='js/sliders.js') }}"></script>
 

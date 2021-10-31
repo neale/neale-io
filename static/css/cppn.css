@@ -1,0 +1,152 @@
+.image-viewer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+.image-viewer-border {
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  width: 75%;
+  background-color: #C2BEBD;
+}
+
+.main-image-viewer {
+  width:            95%;
+  margin:           auto;
+  margin-top:       3%;
+  margin-bottom:    3%;
+  display:          block;
+  background-color: #282828;
+}
+
+.img-main {
+
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: block;
+  border: 30px solid #282828;
+  background-color: #282828;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8%;
+  margin-left: 10%;
+  margin-right: 10%;*/
+}
+
+/* slide containers */
+.slider-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+}
+
+.slidecontainer-z {
+  margin: auto;
+  margin-bottom: 2%;
+}
+
+.example-slider {
+    margin: auto;
+    margin-bottom: 2%;
+  }
+
+.slidecontainer-net-width {
+  margin: auto;
+  margin-bottom: 2%;
+}
+
+.slidecontainer-z-scale {
+  margin: auto;
+  margin-bottom: 2%;
+}
+
+.slidecontainer-interpolation {
+  margin: auto;
+  margin-bottom: 2%;
+}
+
+.form-range {
+    width: 20em;
+}
+/* button classes for spacing */
+.btn-spacing {
+  margin-left: 2%;
+  margin-right 2%;
+}
+.btn-size {
+  width: 8em;
+}
+
+input[type=range]:focus {
+	outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+	width: 100%;
+	height: 6px;
+	cursor: pointer;
+	animate: 0.2s;
+	background: #03a9f4;
+	border-radius: 25px;
+}
+input[type=range]::-webkit-slider-thumb {
+	height: 20px;
+	width: 20px;
+	border-radius: 50%;
+	background: #fff;
+	box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
+	cursor: pointer;
+	-webkit-appearance: none;
+	margin-top: -6px;
+}
+input[type=range]:focus::-webkit-slider-runnable-track {
+	background: #03a9f4;
+}
+.recent-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.recent-image-border {
+    margin: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    width: 95%;
+    background-color: #C2BEBD;
+}
+.recent-image-viewer {
+    display: flex;
+    width:            97%;
+    margin:           auto;
+    margin-top:       1%;
+    margin-bottom:    1%;
+    background-color: #282828;
+}
+
+.col:hover {
+    border: 1px solid #777;
+}
+
+.recent-image-viewer img {
+    width: 100%;
+    border: 0px;
+    height: auto;
+}
+
+.col {
+    display: flex;
+    flex-direction: row;
+    padding: 1%;
+}
