@@ -33,8 +33,14 @@ def init_cppn(uid, rand=False):
 
 @app.route('/home')
 def home():
+<<<<<<< HEAD
     try:
         clear_images(session['uid'], 'jpg')
+=======
+    print ('home')
+    try:
+        clear_images(session['uid'], 'png')
+>>>>>>> b6081341a5bdb06b1baf661aa552cbbfef3f6bde
         clear_images(session['uid'], 'tiff')
     except Exception as e:
         print (e)
@@ -114,6 +120,27 @@ def run_image_batch(cppn, uid, autosave):
     return sample, fn_suff
 
 
+def clear_images(uid, suffix='png'):
+    assert suffix in ['png', 'tiff']
+    sample_dir = 'static/assets/cppn_images/{}'.format(uid)
+    if suffix == 'png':
+        img_in_dir = glob('{}/*.png'.format(sample_dir))
+    elif suffix == 'tiff':
+        img_in_dir = glob('{}/*.tiff'.format(sample_dir))
+    print (f'clearing {suffix} files')
+    for image in img_in_dir:
+        os.remove(image)
+
+
+def run_image(cppn, uid, autosave):
+    sample, fn_suff = run_cppn(cppn, uid, autosave=autosave)
+    return sample, fn_suff
+
+
+@app.route('/generate-image-random', methods=['GET', 'POST'])
+def generate_image_random():
+    pass
+
 @app.route('/generate-image', methods=['GET', 'POST'])
 def generate_image():
     """
@@ -128,6 +155,7 @@ def generate_image():
             return redirect("/cppn")
         
         print ('gen image', session['cppn_config'])
+<<<<<<< HEAD
         cppn = init_cppn(uid=session['uid'], rand=True)
         session.modified = True
         if cppn.generator is None:
@@ -142,9 +170,28 @@ def generate_image():
         sample, batch_samples = sample
         assert sample is not None, "sample is None"
         images_in_dir = glob('{}/*.jpg'.format(sample_dir))
+=======
+        cppn = init_cppn(uid=session['uid'])
+        if cppn.generator is None:
+            cppn.init_generator()
+        uid = session['uid']
+        sample_dir = 'static/assets/cppn_images/{}'.format(uid)
+        print ('running with Z', cppn.z_dim)
+        if len(glob('{}/*.png'.format(sample_dir))) > 100:
+            clear_images(uid, 'png') 
+            clear_images(uid, 'tiff') 
+        sample, fn_suff = run_image(cppn, uid, autosave)
+        assert sample is not None, "sample is None"
+        if not autosave: # image did not get saved under unique ID
+            path = f'{cppn.exp_name}/{cppn.uid}/sample'
+            print (f'saving sample to path: {path}')
+            cppn._write_image(path=path, x=sample, suffix='PNG')
+        images_in_dir = glob('{}/*.png'.format(sample_dir))
+>>>>>>> b6081341a5bdb06b1baf661aa552cbbfef3f6bde
         if len(images_in_dir) > 1:
             first_sample, last_sample, samples = sort_fn_nums(images_in_dir)
         else:
+<<<<<<< HEAD
             last_sample = images_in_dir[0]
         print (f'new image from _generate_image: {first_sample}')
         first_sample = first_sample.split('static/')[1]
@@ -155,6 +202,12 @@ def generate_image():
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})
+=======
+            latest_image = images_in_dir[0]
+        print (f'new image from _generate_image: {latest_image}')
+        latest_image = latest_image.split('static/')[1]
+        return jsonify({'img': latest_image})
+>>>>>>> b6081341a5bdb06b1baf661aa552cbbfef3f6bde
 
 @app.route('/regenerate-image', methods=['GET', 'POST'])
 def regenerate_image(increment=0):
