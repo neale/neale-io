@@ -39,23 +39,47 @@
     <main id="content" class="main-content" role="main">
       <p>I’m Neale Ratzlaff, 🌲 🌲 a Deep Learning and Computer Vision researcher, working on Bayesian deep learning, with applications to computer vision and deep reinforcement learning</p>
 
-<p>I’m a PhD candidate studying with Dr. <a href="https://web.engr.oregonstate.edu/~lif/">Fuxin Li</a> at Oregon State University.
+      <p>I’m a research scientist at <a href="https://www.hrl.com/laboratories/issl">HRL Laboratories</a> in Malibu California.
 I’m broadly interested in implicit variational inference, generative models, uncertainty quantification, and information geometry. It’s important to create AI agents which we can trust, meaning I spend a lot of time thinking about alignment and paperclips.</p>
 
-<p>Currently I’m interested in leveraging particle-based variational inference to create better Bayesian neural networks. We can learn these intractable distributions even for complex neural networks. The resulting distributions have numerous benefits over single models, and even bootstrapped ensembles.</p>
 
-<p>I’ve worked at <a href="https://horizon.ai/">Horizon Robotics</a>, <a href="https://vimeo.com/170280447">Intel</a>, and <a href="https://www.tek.com/">Tektronix</a></p>
-<div style="text-align:center"><img src="images/horizon_logo.png" /> <img src="images/intel_logo.png" /> <img src="images/tek_logo.png" /> </div>
+<p>My PhD was done at Oregon State university with Dr. <a href="https://web.engr.oregonstate.edu/~lif/">Fuxin Li</a>. In the quite recent past, I’ve worked at <a href="https://horizon.ai/">Horizon Robotics</a>, <a href="https://vimeo.com/170280447">Intel</a>, and <a href="https://www.tek.com/">Tektronix</a></p>
+
+<div style="text-align:center">
+    <img width="20%" src="images/hrl_logo.png" /> 
+    <img src="images/logo_horizonrobotics.png" width="25%"/>
+    <img src="images/intel_logo.png" /> 
+    <img src="images/tek_logo.png" width="30%" /> </div>
+
+
+<h1 id="News">News</h1>
+<ul>
+<li>I successfully defended my dissertation on uncertainty quantification in deep learning with implicit distributions over neural networks</li>
+
+<li>I accepted a research scientist position at HRL Laboratories in Malibu, CA.</li>
+
+<li>Our paper that proposes a new method fro identifying covariate shift in image data was accepted to IEEE VIS 2021</li>
 
 <h1 id="papers">Papers</h1>
 
+<h3 id="constrastive-id"><a href=https://arxiv.org/abs/2108.08000">Contrastive Identification of Covariate Shift in Image Data</a></h3>
+
+<p>Matthew L. Olson, Thuy-Vy Nguyen, Gaurav Dixit, <strong>Neale Ratzlaff</strong>, Weng-Keen Wong, Minsuk Kahng (<strong>IEEE VIS</strong>) 2021
+</p>
+
+We design and evaluate a new visual interface that facilitates the comparison of the local distributions of training and test data. We conduct a quantitative user study on multi-attribute facial data to compare the learned latent representations of ImageNet CNNs vs. density ratio models, with two user analytic workflows.
+<div style="text-align:center"><img src="/images/vis_pic.png" /></div>
+
+
 <h3 id="generative-particle-variational-inference-via-estimation-of-functional-gradients"><a href="https://arxiv.org/abs/2103.01291">Generative Particle Variational Inference via Estimation of Functional Gradients</a></h3>
 
-<p><strong>Ratzlaff</strong><sup>☨</sup>, Bai<sup>☨</sup>, Fuxin, Xu. (Under Review) 2021,</p>
+<p><strong>Ratzlaff</strong><sup>☨</sup>, Bai<sup>☨</sup>, Fuxin, Xu. (<strong>ICML</strong>) 2021</p>
 
 <p>(☨): Equal Contribution</p>
 
-<p>Code: coming very soon</p>
+<p>
+Code: <a href="https://github.com/HorizonRobotics/alf/">Github Repo</a>
+</p>
 
 <p>We introduce a new method for Bayesian deep learning: GPVI, that fuses the flexibility of particle-based variational methods, with the efficiency of generative samplers. We construct a neural sampler that is trained with the functional gradient of the KL-divergence between the empirical sampling distribution and the target distribution. We show that GPVI accurately models the posterior distribution when applied to density estimation and Bayesian neural networks. This work also features a new method for estimating the inverse of the input-output jacobian without invertibility restrictions.</p>
 
@@ -117,8 +141,18 @@ We enforce diversity by regularizing the intermediate representations to be well
 
 <h1 id="theses">Theses</h1>
 
-<h3 id="methods-for-detection-and-recovery-of-out-of-distribution-examples-ms-degree-computer-science-oregon-state-university-2018"><a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/mw22vb88d">Methods for Detection and Recovery of Out-of-Distribution Examples.</a> M.S. Degree Computer Science. Oregon State University (2018)</h3>
+<h3 id="Uncertianty-in-deep-learning-with-implicit-neural-networks">
+    <a href=https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/1j92gf94q?locale=en">Uncertainty in Deep Learning with Implicit Neural Networks</a></h3>
 
+<p>
+PhD dissertation, Computer Science, Oregon State University (2021)
+</p>
+
+<h3 id="methods-for-detection-and-recovery-of-out-of-distribution-examples-ms-degree-computer-science-oregon-state-university-2018"><a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/mw22vb88d">Methods for Detection and Recovery of Out-of-Distribution Examples.</a> </h3>
+
+<p>
+M.S. Thesis Computer Science. Oregon State University (2018)
+</p>
 <div style="text-align:center"><img src="images/class.png" /> <img src="images/density.png" /> </div>
 
 <hr />
@@ -138,14 +172,8 @@ We enforce diversity by regularizing the intermediate representations to be well
 
 <h1 id="generative-art">Generative Art</h1>
 
-<p>Inspired by <a href="http://blog.otoro.net/">Hardmaru</a>, I build evolutionary creative machines. There is gallery of examples <a href="./gen_art.html">here</a></p>
+<p>Inspired by <a href="http://blog.otoro.net/">Hardmaru</a>, I build evolutionary creative machines. There is gallery of examples <a href="/genart">here</a></p>
 
-
-
-      <footer class="site-footer">
-        
-        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</span>
-      </footer>
     </main>
   </body>
   {% endblock %}
