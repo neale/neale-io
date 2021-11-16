@@ -44,7 +44,7 @@ def home():
 
 @app.route('/genart')
 def genart():
-    return render_template('genart.html')
+    return render_template("genart.html")
 
 @app.route('/cppn')
 def cppn_viewer():
