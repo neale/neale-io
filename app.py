@@ -30,7 +30,7 @@ def init_cppn(uid, rand=False):
     if rand:
         session['cppn_config']['seed'] = np.random.randint(123456789)
     return CPPN(**session['cppn_config'])
-    
+ 
 
 @app.route('/home')
 def home():
@@ -42,9 +42,11 @@ def home():
 
     return render_template("index.html")
 
+
 @app.route('/genart')
 def genart():
     return render_template("genart.html")
+
 
 @app.route('/cppn')
 def cppn_viewer():
@@ -167,7 +169,10 @@ def generate_image():
             session.modified = True
             cppn = init_cppn(uid=uid, rand=True)
         if cppn.generator is None:
-            cppn.init_generator()
+            if request.form.get('random-gen') == 'true':
+                cppn.init_generator(random_generator=True)
+            else:
+                cppn.init_generator(random_generator=False)
             os.makedirs(sample_dir, exist_ok=True)
         if request.form.get('clear') == 'true':
             clear_images(uid, 'jpg') 

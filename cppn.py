@@ -13,7 +13,7 @@ import tifffile
 # Because imageio uses the root logger instead of warnings package...
 import logging
 
-from cppn_generator import Generator
+from cppn_generator import Generator, RandomGenerator
 torch.backends.cudnn.benchmark = True
 
 logging.getLogger().setLevel(logging.ERROR)
@@ -96,8 +96,11 @@ class CPPN(object):
                 nn.init.normal_(layer.weight.data)
         return model
 
-    def init_generator(self, seed=None):
-        generator = Generator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
+    def init_generator(self, random_generator=False, seed=None):
+        if random_generator:
+            generator = RandomGenerator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
+        else:
+            generator = Generator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
         self.generator = torch.jit.script(self._init_weights(generator))
         self.generator.eval()
 
