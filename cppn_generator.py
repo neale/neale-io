@@ -70,7 +70,6 @@ class RandomGenerator(nn.Module):
             a.append(acts[self.order[i]])
 
         self.acts = nn.ModuleList(a)
-
         #acts = [F.relu_, F.hardtanh_, F.hardswish, F.elu_, F.celu, F.selu,
         #        F.leaky_relu_, F.gelu, F.softsign, F.softplus, F.softmax, F.tanh,
         #        F.sigmoid, F.silu, F.mish, self.ident, torch.arcsin, torch.cos,

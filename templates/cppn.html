@@ -355,7 +355,7 @@ random_btn.onclick = function() {
     slide_z.value = z_rand;
     slide_net_width.value = net_width_rand;
     slide_z_scale.value = scale_rand;
-
+    
     $.post({
         url: "/slider-control",
         data: {"z_range": z_rand,
@@ -371,8 +371,11 @@ random_btn.onclick = function() {
                 url: '/generate-image',
                 data: {"clear": true, "random-gen": true},
                 success: function(response){
+		    console.log('new randrandrand image');
                     console.log('set new random image:', response.img);
                     console.log('set new random gallary:', response.recent1);
+		    console.log('name:', response.gen_name);
+		    console.log('why:', response.why);
                     $("#main-img").attr('src', response.img);
                     $("#recent0").attr('src', response.recent1);
                     $("#recent1").attr('src', response.recent2);

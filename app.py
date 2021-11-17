@@ -197,6 +197,8 @@ def generate_image():
         for i in range(1, len(samples)):
             name = samples[i].split('static/')[1]
             ret[f'recent{i}'] = name
+        ret['gen_name'] = str(cppn.generator.name)
+        ret['why'] = 'here'
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})

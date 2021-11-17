@@ -85,7 +85,7 @@ slide_z_scale.onchange = function() {
   });
 }
 
-var slide_interpolation = document.getElementById('interpolation_range'),
+/*var slide_interpolation = document.getElementById('interpolation_range'),
     sliderDiv_interpolation = document.getElementById("interpolation_slider_amount");
 
 const rangeinter = document.getElementById('interpolation_range'),
@@ -113,4 +113,4 @@ slide_interpolation.onchange = function() {
         }
     });
 }
-
+*/
