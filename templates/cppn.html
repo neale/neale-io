@@ -219,6 +219,7 @@ Controlled Pattern Producing Network
             data: {"increment": 1},
             success: function(response){
                 console.log('Next: set new image:', response.img);
+                console.log('Next: from image loaded:', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
@@ -330,7 +331,7 @@ Controlled Pattern Producing Network
 function randint(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
-var random_btn = document.getElementById('random-gen-btn');
+var random_gen_btn = document.getElementById('random-gen-btn');
 img = document.getElementById("main-img"),
     slide_z = document.getElementById('z_range'),
     sliderDiv_z = document.getElementById("z_range_slider_amount"),
@@ -339,10 +340,10 @@ img = document.getElementById("main-img"),
     slide_z_scale = document.getElementById('z_scale_range'),
     sliderDiv_z_scale = document.getElementById("z_scale_range_slider_amount");
 
-random_btn.onclick = function() {
+random_gen_btn.onclick = function() {
     var z_rand = randint(1, 8);
-    var net_width_rand = randint(1, 32);
-    var scale_rand = randint(0, 256);
+    var net_width_rand = randint(1, 20);
+    var scale_rand = randint(0, 128);
     console.log('setting random settings:');
     console.log('\tz dim:', z_rand);
     console.log('\tnet width:', net_width_rand);
@@ -371,11 +372,9 @@ random_btn.onclick = function() {
                 url: '/generate-image',
                 data: {"clear": true, "random-gen": true},
                 success: function(response){
-		    console.log('new randrandrand image');
                     console.log('set new random image:', response.img);
                     console.log('set new random gallary:', response.recent1);
 		    console.log('name:', response.gen_name);
-		    console.log('why:', response.why);
                     $("#main-img").attr('src', response.img);
                     $("#recent0").attr('src', response.recent1);
                     $("#recent1").attr('src', response.recent2);
@@ -386,6 +385,7 @@ random_btn.onclick = function() {
                     $("#recent6").attr('src', response.recent7);
                     $("#recent7").attr('src', response.recent8);
                     $("#recent8").attr('src', response.recent9);
+		    console.log('setting 8 images: ', response.recent9);
                 },
                 error: function(error){
                     alert(response);
@@ -414,7 +414,8 @@ random_btn.onclick = function() {
             url: '/regenerate-image',
             data: {"set_to": 0},
             success: function(response){
-                console.log('Next: set new image:', response.img);
+                console.log('Click: set new image:', response.img);
+                console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
@@ -429,7 +430,8 @@ random_btn.onclick = function() {
             url: '/regenerate-image',
             data: {"set_to": 1},
             success: function(response){
-                console.log('Next: set new image:', response.img);
+                console.log('Click: set new image:', response.img);
+                console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
@@ -444,7 +446,8 @@ random_btn.onclick = function() {
             url: '/regenerate-image',
             data: {"set_to": 2},
             success: function(response){
-                console.log('Next: set new image:', response.img);
+                console.log('Click: set new image:', response.img);
+                console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
@@ -459,7 +462,8 @@ random_btn.onclick = function() {
             url: '/regenerate-image',
             data: {"set_to": 3},
             success: function(response){
-                console.log('Next: set new image:', response.img);
+                console.log('Click: set new image:', response.img);
+                console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
@@ -474,7 +478,8 @@ random_btn.onclick = function() {
             url: '/regenerate-image',
             data: {"set_to": 4},
             success: function(response){
-                console.log('Next: set new image:', response.img);
+                console.log('Click: set new image:', response.img);
+                console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
@@ -489,11 +494,12 @@ random_btn.onclick = function() {
             url: '/regenerate-image',
             data: {"set_to": 5},
             success: function(response){
-                console.log('Next: set new image:', response.img);
+                console.log('Click: set new image:', response.img);
+                console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
             },
             error: function(error){
-                alert(response);
+                // alert(response);
                 console.log(error);
             }
         });

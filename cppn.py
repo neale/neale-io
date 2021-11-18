@@ -217,6 +217,10 @@ def run_cppn(cppn, uid, autosave=False, z=None):
             batch_samples.append(batch_sample)
 
         n = np.random.randint(99999999)
+        if cppn.generator.name == 'RandomGenerator':
+            randgen = 1
+        else:
+            randgen = 0
         for i, (img, z_j) in enumerate(zip([sample, *batch_samples], [z, *z_batch])):
             metadata = dict(seed=str(cppn.seed),
                     seed_gen=str(cppn.seed_gen),
@@ -224,7 +228,8 @@ def run_cppn(cppn, uid, autosave=False, z=None):
                     z=str(cppn.z_dim), 
                     c_dim=str(cppn.c_dim),
                     scale=str(cppn.z_scale),
-                    net=str(cppn.layer_width))
+                    net=str(cppn.layer_width),
+                    randgen=str(randgen))
             if autosave:
                 save_fn = f'{cppn.exp_name}/{uid}/temp/{n}{suff}_{i}'
                 #print ('saving TIFF/PNG image pair at: {}'.format(save_fn))

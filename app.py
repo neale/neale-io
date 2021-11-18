@@ -153,7 +153,6 @@ def generate_image():
                 session.modified = True
                 cppn = init_cppn(uid=uid, rand=True)
                 override = True
-                print ('OVERRIDING')
             else:    
                 img_prefix = imgs[0].split('.tif')[0]
                 print (img_prefix)
@@ -164,6 +163,7 @@ def generate_image():
                 noise = literal_eval(metadata['z_sample'])
                 session.modified = True
                 cppn = init_cppn(uid=uid, rand=False)
+
         else:  # normal generate following ranges
             session['curr_img_idx'] = 1
             session.modified = True
@@ -224,8 +224,12 @@ def save_images(x, y, res):
     session.modified=True
     noise = literal_eval(metadata['z_sample'])
     cppn = init_cppn(uid=session['uid'], rand=False)
+    if int(metadata['randgen']) == 1:
+        randgen = True
+    else:
+        randgen = False
     if cppn.generator is None:
-        cppn.init_generator()
+        cppn.init_generator(random_generator=randgen)
     sample = cppn.sample_frame(torch.as_tensor(noise),
             x,
             y,
@@ -363,7 +367,8 @@ def regenerate_image():
             img_path = fn_exist[0].split('static/')[1]
             session['curr_img_idx'] = idx
             session.modified=True
-            return jsonify({'img': f'{img_path}'})
+            return jsonify({'img': f'{img_path}',
+                           'img_path_orig': img_prefix})
 
         print ('re-gen image', session['cppn_config'])
         # load image and grab config --> set to session config
@@ -379,6 +384,10 @@ def regenerate_image():
         session['cppn_config']['z_scale'] = int(float(metadata['scale']))
         session['cppn_config']['layer_width'] = int(metadata['net'])
         session['curr_img_idx'] = idx
+        if int(metadata['randgen']) == 1:
+            randgen = True
+        else:
+            randgen = False
 
         session.modified=True
         print (metadata['z_sample'])
@@ -386,7 +395,7 @@ def regenerate_image():
         print ('before init')
         cppn = init_cppn(uid=session['uid'], rand=False)
         if cppn.generator is None:
-            cppn.init_generator()
+            cppn.init_generator(random_generator=randgen)
         sample = cppn.sample_frame(
             torch.as_tensor(noise),
             session['cppn_config']['x_dim'],
@@ -399,7 +408,8 @@ def regenerate_image():
         print ('write')
         cppn._write_image(img_path, sample, 'jpg')
         img_path = img_path.split('static/')[1]
-        ret = {'img': f'{img_path}.jpg'}
+        ret = {'img': f'{img_path}.jpg',
+               'img_path_orig': img_prefix}
         print (ret)
         return jsonify(ret)
     else:
