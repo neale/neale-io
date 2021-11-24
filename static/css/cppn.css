@@ -47,7 +47,7 @@
   justify-content: center;
   margin-bottom: 8%;
   margin-left: 10%;
-  margin-right: 10%;*/
+  margin-right: 10%;
 }
 
 /* slide containers */
@@ -88,8 +88,8 @@
 }
 /* button classes for spacing */
 .btn-spacing {
-  margin-left: 2%;
-  margin-right 2%;
+  margin-left: 1%;
+  margin-right: 1%;
 }
 .btn-size {
   width: 8em;

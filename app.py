@@ -4,6 +4,8 @@ import csv
 import json, jsonify
 import requests
 import numpy as np
+import pandas as pd
+
 from glob import glob
 from time import sleep
 from flask import Flask, request, jsonify, render_template, url_for, redirect
@@ -73,6 +75,7 @@ def cppn_viewer():
     session['curr_img_idx'] = 0
     session['landing_img'] = 'images/12.png'
     session['landing_img_sm'] = 'images/12_sm.png'
+    session['last_act_order'] = ['']
     
     slider_vals = {
         'z_slider_init'            : session['cppn_config']['z_dim'],
@@ -197,7 +200,8 @@ def generate_image():
             name = samples[i].split('static/')[1]
             ret[f'recent{i}'] = name
         ret['gen_name'] = str(cppn.generator.name)
-        ret['why'] = 'here'
+        if cppn.generator.name == 'RandomGenerator':
+            ret['gen_act'] = str(a.__repr__ for a in cppn.generator.acts)
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})
@@ -456,6 +460,34 @@ def slider_control():
             ret['nothing'] = 0
         return jsonify(ret)
 
+
+@app.route('/vote-image', methods=['GET', 'POST'])
+def vote_image():
+    print ('request.form:', request.form)
+    if request.method == 'GET':
+        print ('get request')
+        return jsonify({'nothing': 0})
+
+    elif request.method == 'POST':
+        if 'uid' not in session:
+            return redirect("/cppn")
+        uid  = session['uid']
+        acts = session['last_act_order']
+        vote = request.form.get('vote')
+        if not os.path.isfile('voting_table.csv'):
+            with open('voting_table.csv', 'wb') as f:
+                # write header
+                writer = csv.writer(f, delimiter=',')
+                writer.writerow(['Iter','Act0','Act1','Act2','Act3',
+                                 'Act4','Act5','Act6','Act7','Act8'])
+         
+        with open('voting_table.csv', 'a') as f:
+            # write header
+            lines = len(list(csv.reader(f)))
+            writer = csv.writer(f, delimiter=',')
+            row = [str(lines)]
+            row.extend(acts[:8])
+    return
 
 @app.route("/<name>")
 def user(name):

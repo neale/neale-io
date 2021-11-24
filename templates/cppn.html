@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-Controlled Pattern Producing Network
+Controlled Compositional Pattern Producing Network
 {% endblock %}
 
 {% block content %}
@@ -140,6 +140,22 @@ Controlled Pattern Producing Network
             </div>
             -->
         </div>
+	<div class "vote-container" style="width:100%;">
+	    <button 
+                type="button"
+                id="plus-btn"
+                onclick="window.location.href='{{ url_for('vote_image') }}'"
+                class="btn btn-lg btn-success btn-spacing btn-width btn-size">
+                :)
+            </button>
+            <button 
+                type="button"
+                id="minus-btn"
+                onclick="window.location.href='{{ url_for('vote_image') }}'"
+                class="btn btn-lg btn-danger btn-spacing btn-width btn-size">
+                :(
+            </button>
+	</div>
     </div>
     <div class="recent-image-container">
         <div class="recent-image-border">
@@ -366,6 +382,7 @@ random_gen_btn.onclick = function() {
                     console.log('set new random image:', response.img);
                     console.log('set new random gallary:', response.recent1);
 		    console.log('name:', response.gen_name);
+		    console.log('act order:', response.gen_act); 
                     $("#main-img").attr('src', response.img);
                     $("#recent0").attr('src', response.recent1);
                     $("#recent1").attr('src', response.recent2);
@@ -387,6 +404,40 @@ random_gen_btn.onclick = function() {
         }
     });
 }
+</script>
+
+<script>
+    var plus_btn = document.getElementById('plus-btn');
+    plus_btn.onclick = function() {
+        $.post({
+            url: '/vote-image',
+            data: {"vote": 1},
+            success: function(response){
+                console.log('voted:', response.vote);
+            },
+            error: function(error){
+                alert(response);
+                console.log(error);
+            }
+        });
+    }
+</script>
+
+<script>
+    var minus_btn = document.getElementById('minus-btn');
+    minus_btn.onclick = function() {
+        $.post({
+            url: '/vote-image',
+            data: {"vote": -1},
+            success: function(response){
+                console.log('voted:', response.vote);
+            },
+            error: function(error){
+                alert(response);
+                console.log(error);
+            }
+        });
+    }
 </script>
 
 
@@ -495,10 +546,7 @@ random_gen_btn.onclick = function() {
     }
 </script>
 
-
-
 <script src="{{ url_for('static', filename='js/sliders.js') }}"></script>
-
 
 {% endblock %}
 
