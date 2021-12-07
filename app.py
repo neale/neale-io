@@ -47,17 +47,8 @@ def home():
 def genart():
     return render_template("genart.html")
 
-
-@app.route('/cppn')
-def cppn_viewer():
-    # start CPPN 
-    if 'uid' not in session.keys():
-        uid = np.random.randint(int(1e9))
-        session['uid'] = uid
-    if 'cppn_config' not in session.keys():
-        print('creating cppn config')
-        session['cppn_config'] = {
-            'z_dim'    : 4,
+def get_initial_config():
+   return  {'z_dim'    : 4,
             'n_samples': 6,
             'x_dim': 512,
             'y_dim': 512,
@@ -69,8 +60,17 @@ def cppn_viewer():
             'exp_name': 'static/assets/cppn_images',
             'seed': None,
             'seed_gen': 1234567890,
-            'uid': session['uid'],
-        }
+            'uid': session['uid']}
+
+@app.route('/cppn')
+def cppn_viewer():
+    # start CPPN 
+    if 'uid' not in session.keys():
+        uid = np.random.randint(int(1e9))
+        session['uid'] = uid
+    if 'cppn_config' not in session.keys():
+        print('creating cppn config')
+        session['cppn_config'] = get_initial_config()
     session['curr_img_idx'] = 0
     session['landing_img'] = 'images/12.png'
     session['landing_img_sm'] = 'images/12_sm.png'
@@ -95,22 +95,27 @@ def cppn_viewer_simple():
         session['uid'] = uid
     if 'cppn_config' not in session.keys():
         print('creating cppn config')
-        session['cppn_config'] = {
-                'z_dim'    : 4,
-                'n_samples': 6,
-                'x_dim': 512,
-                'y_dim': 512,
-                'c_dim': 3,
-                'batch_size': 16,
-                'z_scale': 4,
-                'layer_width': 4,
-                'interpolation': 10,
-                'exp_name': 'static/assets/cppn_images',
-                'seed': None,
-                'seed_gen': 1234567890,
-                'uid': session['uid'],
-                }
-        session['curr_img_idx'] = 0
+        session['cppn_config'] = get_initial_config()
+    session['curr_img_idx'] = 0
+    session['landing_img'] = 'images/12.png'
+    session['landing_img_sm'] = 'images/12_sm.png'
+    session['last_act_order'] = []
+
+    return render_template('cppn-simple.html',
+            data={'landing': session['landing_img'],
+                'landing_sm': session['landing_img_sm']})
+
+
+@app.route('/cppn-dev')
+def cppn_viewer_dev():
+    # start CPPN 
+    if 'uid' not in session.keys():
+        uid = np.random.randint(int(1e9))
+        session['uid'] = uid
+    if 'cppn_config' not in session.keys():
+        print('creating cppn config')
+        session['cppn_config'] = get_initial_config()
+    session['curr_img_idx'] = 0
     session['landing_img'] = 'images/12.png'
     session['landing_img_sm'] = 'images/12_sm.png'
     session['last_act_order'] = []
@@ -365,6 +370,40 @@ def save_image_desktop4k():
     return send_file(path, as_attachment=True)
 
 
+@app.route('/download-square2', methods=['GET'])
+def save_image_square2():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_desktop4k.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_desktop2k.png', as_attachment=True)
+
+    x = 2000
+    y = 2000
+    path = save_images(x, y, '2square')
+    return send_file(path, as_attachment=True)
+
+
+@app.route('/download-square4', methods=['GET'])
+def save_image_square4():
+    """
+    saves an image at a user-specified resolution
+    """
+    if 'uid' not in session:
+        return send_file('static/images/12_desktop4k.png', as_attachment=True)
+    sample_dir = 'static/assets/cppn_images/{}/temp/'.format(session['uid'])
+    if len(glob('{}/*.jpg'.format(sample_dir))) == 0:
+        return send_file('static/images/12_desktop4k.png', as_attachment=True)
+
+    x = 4000
+    y = 4000
+    path = save_images(x, y, '4square')
+    return send_file(path, as_attachment=True)
+
+
 @app.route('/regenerate-image', methods=['GET', 'POST'])
 def regenerate_image():
     """
@@ -544,9 +583,11 @@ def vote_image():
     #return generate_image(clear=True, random_gen=True)
     return jsonify({})
 
+
 @app.route("/<name>")
 def user(name):
     return redirect("/")
+
 
 @app.route("/")
 def root():

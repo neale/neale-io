@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+from functools import reduce
 import numpy as np
 
 
@@ -54,14 +55,14 @@ class Generator(nn.Module):
         return x
 
 
-class RandomGenerator(nn.Module):
+class GeneratorRandomAct(nn.Module):
     def __init__(self,
                  z_dim,
                  c_dim,
                  layer_width,
                  scale_z,
-                 name='RandomGenerator'):
-        super(RandomGenerator, self).__init__()
+                 name='GeneratorRandomAct'):
+        super(GeneratorRandomAct, self).__init__()
         self.z_dim = z_dim
         self.c_dim = c_dim
         self.layer_width = layer_width
@@ -94,5 +95,3 @@ class RandomGenerator(nn.Module):
         H = self.acts[7](self.linear_h(H))
         x = .5 * self.acts[8](self.linear_out(H)) + .5
         return x
-
-
