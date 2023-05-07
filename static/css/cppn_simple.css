@@ -1,0 +1,125 @@
+.image-viewer-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 1024px;
+  margin-left: 10em;
+}
+
+.image-viewer-all {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.image-viewer-border {
+  margin: auto;
+  margin-top: 10%;
+  margin-bottom: 5%;
+  width: 75%;
+  background-color: #C2BEBD;
+}
+
+.main-image-viewer {
+  width:            95%;
+  margin:           auto;
+  margin-top:       3%;
+  margin-bottom:    3%;
+  display:          block;
+  background-color: #282828;
+}
+
+.img-main {
+
+  max-width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+
+  display: block;
+  border: 30px solid #282828;
+  background-color: #282828;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+/* button classes for spacing */
+.btn-spacing {
+  margin-left: 1%;
+  margin-right: 1%;
+}
+
+.btn-spacing-pro {
+    margin-left: 3%;
+    margin-right: 3%;
+}
+
+.btn-size-pro {
+    width: 4em;
+    margin-left: 2em;
+
+}
+
+.btn-size {
+  width: 8em;
+}
+.btn-group {
+    margin-left: 2%;
+}
+
+.recent-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3em;
+    margin-right: 3em;
+    /* margin: 0 auto; */
+}
+
+.recent-image-border {
+    margin: auto;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    padding-left: 2%;
+    padding-right: 2%;
+    width: 100%;
+    background-color: #C2BEBD;
+}
+.recent-image-viewer {
+    display: flex;
+    flex-direction: column;
+    width:            95%;
+    margin:           auto;
+    margin-top:       5%;
+    margin-bottom:    5%;
+    padding-right:    15%;
+    padding-left:     15%;
+    background-color: #282828;
+}
+
+.row-img:hover {
+    border: 0px solid #777;
+}
+
+.recent-image-viewer img {
+    width: 100%;
+    border: 1px;
+    height: auto;
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.img-recent {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #282828;
+}

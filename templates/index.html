@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+
+{% block content %}
+
+<html lang="en-US">
+  <head>
+
+    <meta charset="UTF-8">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Neale Ratzlaff | Implicit is Sometimes Better than Explicit</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Neale Ratzlaff" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Implicit is Sometimes Better than Explicit" />
+<meta property="og:description" content="Implicit is Sometimes Better than Explicit" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="Neale Ratzlaff" />
+<script type="application/ld+json">
+{"headline":"Neale Ratzlaff","url":"http://localhost:4000/","name":"Neale Ratzlaff","description":"Implicit is Sometimes Better than Explicit","@type":"WebSite","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="css/index.css">
+  </head>
+  <body>
+    <header class="page-header" role="banner">
+      <h1 class="project-name">Neale Ratzlaff</h1>
+      <h2 class="project-tagline">Implicit is Sometimes Better than Explicit</h2>
+      
+      
+      <a href="#" class="image-avatar"> <img src="images/selfpic_circle.png" width=alt=""></a>
+    </header>
+
+    <main id="content" class="main-content" role="main">
+      <p>I’m Neale Ratzlaff, 🌲 🌲 a Deep Learning and Computer Vision researcher, working on Bayesian deep learning, with applications to computer vision and deep reinforcement learning</p>
+
+      <p>I’m a research scientist at <a href="https://www.hrl.com/laboratories/issl">HRL Laboratories</a> in Malibu California.
+I’m broadly interested in implicit variational inference, generative models, uncertainty quantification, and information geometry. It’s important to create AI agents which we can trust, meaning I spend a lot of time thinking about alignment and paperclips.</p>
+
+
+<p>My PhD was done at Oregon State university with Dr. <a href="https://web.engr.oregonstate.edu/~lif/">Fuxin Li</a>. In the quite recent past, I’ve worked at <a href="https://horizon.ai/">Horizon Robotics</a>, <a href="https://vimeo.com/170280447">Intel</a>, and <a href="https://www.tek.com/">Tektronix</a></p>
+
+<div style="text-align:center">
+    <img width="20%" src="images/hrl_logo.png" /> 
+    <img src="images/logo_horizonrobotics.png" width="25%"/>
+    <img src="images/intel_logo.png" /> 
+    <img src="images/tek_logo.png" width="30%" /> </div>
+
+
+<h1 id="News">News</h1>
+<ul>
+<li>I successfully defended my dissertation on uncertainty quantification in deep learning with implicit distributions over neural networks</li>
+
+<li>I accepted a research scientist position at HRL Laboratories in Malibu, CA.</li>
+
+<li>Our paper that proposes a new method fro identifying covariate shift in image data was accepted to IEEE VIS 2021</li>
+
+<h1 id="papers">Papers</h1>
+
+<h3 id="constrastive-id"><a href=https://arxiv.org/abs/2108.08000">Contrastive Identification of Covariate Shift in Image Data</a></h3>
+
+<p>Matthew L. Olson, Thuy-Vy Nguyen, Gaurav Dixit, <strong>Neale Ratzlaff</strong>, Weng-Keen Wong, Minsuk Kahng (<strong>IEEE VIS</strong>) 2021
+</p>
+
+We design and evaluate a new visual interface that facilitates the comparison of the local distributions of training and test data. We conduct a quantitative user study on multi-attribute facial data to compare the learned latent representations of ImageNet CNNs vs. density ratio models, with two user analytic workflows.
+<div style="text-align:center"><img src="/images/vis_pic.png" /></div>
+
+
+<h3 id="generative-particle-variational-inference-via-estimation-of-functional-gradients"><a href="https://arxiv.org/abs/2103.01291">Generative Particle Variational Inference via Estimation of Functional Gradients</a></h3>
+
+<p><strong>Ratzlaff</strong><sup>☨</sup>, Bai<sup>☨</sup>, Fuxin, Xu. (<strong>ICML</strong>) 2021</p>
+
+<p>(☨): Equal Contribution</p>
+
+<p>
+Code: <a href="https://github.com/HorizonRobotics/alf/">Github Repo</a>
+</p>
+
+<p>We introduce a new method for Bayesian deep learning: GPVI, that fuses the flexibility of particle-based variational methods, with the efficiency of generative samplers. We construct a neural sampler that is trained with the functional gradient of the KL-divergence between the empirical sampling distribution and the target distribution. We show that GPVI accurately models the posterior distribution when applied to density estimation and Bayesian neural networks. This work also features a new method for estimating the inverse of the input-output jacobian without invertibility restrictions.</p>
+
+<div style="text-align:center"><img src="images/2class-sin.png" /></div>
+
+<hr />
+
+<h3 id="avoiding-side-effects-in-complex-environments"><a href="https://128.84.21.199/abs/2006.06547">Avoiding Side-Effects in Complex Environments.</a></h3>
+
+<p>Turner<sup>☨</sup>, <strong>Ratzlaff</strong><sup>☨</sup>, Tadepalli. (<strong>NeurIPS</strong>) 2020, <strong>Spotlight talk</strong></p>
+
+<p>(☨): Equal Contribution</p>
+
+<p>Code: <a href="https://github.com/neale/avoiding-side-effects">Github Repo</a></p>
+
+<p>We introduce reinforcement learning agents that can accomplish goals without incurring side effects. Standard RL agents collect reward at any cost, often unsustainably ruining the environment around them. The attainable utility penalty (AUP) penalizes agents for acting in a way that decreases in their ability to achieve unknown future goals. We extend AUP to the deep RL case, and show that our AUP agents can act in difficult environments with stochastic dynamics, without incurring side effects.</p>
+
+<div style="text-align:center"><img src="images/aup_paper.png" /></div>
+
+<hr />
+
+<h3 id="implicit-generative-modeling-for-efficient-exploration"><a href="https://arxiv.org/abs/1911.08017">Implicit Generative Modeling for Efficient Exploration.</a></h3>
+
+<p><strong>Ratzlaff</strong>, Bai, Fuxin, Xu. (<strong>ICML</strong>) 2020</p>
+
+<p>We model uncertainty estimation as an intrinsic reward for efficient exploration. We introduce an implicit generative modeling approach to estimate a Bayesian uncertainty of the agent’s belief of theenvironment dynamics.  We approximate the posterior through multiple draws from our generative model. The variance of the dynamic models’ output is used as an intrinsic reward for exploration. We design a training algorithm for our generative model based on amortized Stein Variational Gradient Descent, to ensure the parameter distribution is a nontrivial approximation to the true posterior.</p>
+
+<div style="text-align:center"><img src="images/RLpaper_hypergan.png" /></div>
+
+<hr />
+
+<h3 id="hypergan-a-generative-model-for-diverse-performant-neural-networks"><a href="http://proceedings.mlr.press/v97/ratzlaff19a/ratzlaff19a.pdf">HyperGAN: A Generative Model for Diverse Performant Neural Networks.</a></h3>
+
+<p><strong>Ratzlaff</strong>, Fuxin. (<strong>ICML</strong>) 2019</p>
+
+<p>Code: <a href="https://github.com/neale/HyperGAN">HyperGAN Github repo</a></p>
+
+<p>Talk: ICML Oral <a href="https://slideslive.com/38917398/general-ml">Slideshare</a></p>
+
+<p>We learn an implicit ensemble using a neural generating network. Trained by maximum likelihood, the generator learns to sample from the posterior of model parameters which fit the data. 
+The generated model parameters achieve high accuracy, yet are distinct with different predictive distributions. 
+We enforce diversity by regularizing the intermediate representations to be well-distributed, while not harming the flexibility of the output distribution.</p>
+
+<div style="text-align:center"><img src="images/hypergan.png" /></div>
+
+<hr />
+
+<h3 id="unifying-bilateral-filtering-and-adversarial-training-for-robust-neural-networks"><a href="https://arxiv.org/abs/1804.01635">Unifying Bilateral Filtering and Adversarial Training for Robust Neural Networks.</a></h3>
+
+<p><strong>Ratzlaff</strong>, Fuxin. (<em>arxiv</em> preprint) 2018</p>
+
+<p>Code: <a href="https://github.com/neale/adversarial-toolbox">Github repo</a></p>
+
+<p>We use an adaptive bilateral filter to smooth the purturbations left by adversarial attacks. We view our method as a piecewise projection of the high frequency perturbations, back to the natural image manifold. Our method is simple, effective, and practical, unlike many other projection defenses</p>
+
+<p><img src="images/BFNet.png" alt="BFNet" /></p>
+
+<hr />
+
+<h1 id="theses">Theses</h1>
+
+<h3 id="Uncertianty-in-deep-learning-with-implicit-neural-networks">
+    <a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/1j92gf94q">Uncertainty in Deep Learning with Implicit Neural Networks</a></h3>
+
+<p>
+PhD dissertation, Computer Science, Oregon State University (2021)
+</p>
+
+<h3 id="methods-for-detection-and-recovery-of-out-of-distribution-examples-ms-degree-computer-science-oregon-state-university-2018"><a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/mw22vb88d">Methods for Detection and Recovery of Out-of-Distribution Examples.</a> </h3>
+
+<p>
+M.S. Thesis Computer Science. Oregon State University (2018)
+</p>
+<div style="text-align:center"><img src="images/class.png" /> <img src="images/density.png" /> </div>
+
+<hr />
+
+<h1 id="code">Code</h1>
+
+<p>I maintain and work on various other projects, all deep learning related. Pretty much all of them are in PyTorch.</p>
+
+<ul>
+  <li><a href="https://github.com/neale/adversarial-autoencoder">Adversarial Autoencoders</a></li>
+  <li><a href="https://github.com/neale/Improved-WGAN">Improved Wasserstein GAN</a></li>
+  <li><a href="https://github.com/neale/CPPN">Compositional Pattern Producing Networks</a></li>
+  <li><a href="https://github.com/neale/PySMTDNN">Satisfiable Neural Networks (PySMT-DNN)</a></li>
+</ul>
+
+<hr />
+
+<h1 id="generative-art">Generative Art</h1>
+
+<p>Inspired by <a href="http://blog.otoro.net/">Hardmaru</a>, I build evolutionary creative machines. There is gallery of examples <a href="/genart">here</a></p>
+
+    </main>
+  </body>
+  {% endblock %}
+</html>
