@@ -1,81 +1,89 @@
 <!DOCTYPE html>
 {% extends "base.html" %}
 
+{% block title %}
+Profile
+{% endblock %}
+
+
 {% block content %}
 
-<html lang="en-US">
-  <head>
-
-    <meta charset="UTF-8">
-
-<!-- Begin Jekyll SEO tag v2.6.1 -->
-<title>Neale Ratzlaff | Implicit is Sometimes Better than Explicit</title>
-<meta name="generator" content="Jekyll v4.0.0" />
-<meta property="og:title" content="Neale Ratzlaff" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Implicit is Sometimes Better than Explicit" />
-<meta property="og:description" content="Implicit is Sometimes Better than Explicit" />
-<link rel="canonical" href="http://localhost:4000/" />
-<meta property="og:url" content="http://localhost:4000/" />
-<meta property="og:site_name" content="Neale Ratzlaff" />
-<script type="application/ld+json">
-{"headline":"Neale Ratzlaff","url":"http://localhost:4000/","name":"Neale Ratzlaff","description":"Implicit is Sometimes Better than Explicit","@type":"WebSite","@context":"https://schema.org"}</script>
-<!-- End Jekyll SEO tag -->
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#157878">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="stylesheet" href="css/index.css">
-  </head>
-  <body>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/index.css') }}">
     <header class="page-header" role="banner">
       <h1 class="project-name">Neale Ratzlaff</h1>
       <h2 class="project-tagline">Implicit is Sometimes Better than Explicit</h2>
       
       
-      <a href="#" class="image-avatar"> <img src="images/selfpic_circle.png" width=alt=""></a>
+      <a href="#" class="image-avatar"> <img src="images/selfpic_circle2.png" width=alt=""></a>
     </header>
 
     <main id="content" class="main-content" role="main">
-      <p>I’m Neale Ratzlaff, 🌲 🌲 a Deep Learning and Computer Vision researcher, working on Bayesian deep learning, with applications to computer vision and deep reinforcement learning</p>
+      <p>I’m Neale Ratzlaff, 🌲 🌲 a Deep Learning and Computer Vision researcher, I specialize in quantification of uncertainty in deep learning systemes, mostly working in computer vision and deep reinforcement learning</p>
 
       <p>I’m a research scientist at <a href="https://www.hrl.com/laboratories/issl">HRL Laboratories</a> in Malibu California.
-I’m broadly interested in implicit variational inference, generative models, uncertainty quantification, and information geometry. It’s important to create AI agents which we can trust, meaning I spend a lot of time thinking about alignment and paperclips.</p>
+I’m broadly interested in implicit generative modeling, approximate inference, scaling capabilities, and uncertainty quantification. My AGI timeline has been steadily getting shorter in recent years, and I welcome any opportunity to contribute to technical AI alignment.</p>
+
+      <p>Beyond cold hard ML, I also work on more creative applications of neural networks for art generation. While
+      large-scale text to image models are impressive, I perfer to use them in limited contexts, and create my own
+      algorithms instead. Some of my work here can be seen in the <a href="https://neale.io/gallery">Gallery</a>. 
 
 
-<p>My PhD was done at Oregon State university with Dr. <a href="https://web.engr.oregonstate.edu/~lif/">Fuxin Li</a>. In the quite recent past, I’ve worked at <a href="https://horizon.ai/">Horizon Robotics</a>, <a href="https://vimeo.com/170280447">Intel</a>, and <a href="https://www.tek.com/">Tektronix</a></p>
+<p>I completed my at Oregon State university advised by Dr. <a href="https://web.engr.oregonstate.edu/~lif/">Fuxin Li</a>. During my PhD I interned at <a href="https://horizon.ai/">Horizon Robotics</a> and <a href="https://vimeo.com/170280447">Intel</a></p>
 
 <div style="text-align:center">
     <img width="20%" src="images/hrl_logo.png" /> 
     <img src="images/logo_horizonrobotics.png" width="25%"/>
     <img src="images/intel_logo.png" /> 
-    <img src="images/tek_logo.png" width="30%" /> </div>
 
 
 <h1 id="News">News</h1>
 <ul>
-<li>I successfully defended my dissertation on uncertainty quantification in deep learning with implicit distributions over neural networks</li>
+    <li>I accepted a research scientist position at HRL Laboratories in Malibu, CA.</li>
 
-<li>I accepted a research scientist position at HRL Laboratories in Malibu, CA.</li>
+    <li>Our paper that proposes a new method for identifying covariate shift in image data was accepted to IEEE VIS 2021</li>
 
-<li>Our paper that proposes a new method fro identifying covariate shift in image data was accepted to IEEE VIS 2021</li>
+    <li>I successfully defended my dissertation on uncertainty quantification in deep learning with implicit distributions over neural networks</li>
+</ul>
 
-<h1 id="papers">Papers</h1>
+<h1 id="ActiveProjects">⛑ ⛑  Active Projects ⛏ ⛏ </h1>
 
-<h3 id="constrastive-id"><a href=https://arxiv.org/abs/2108.08000">Contrastive Identification of Covariate Shift in Image Data</a></h3>
+<h3 id="neuralcanvas">Neural Canvas 🖌 ⚡</h3>
 
-<p>Matthew L. Olson, Thuy-Vy Nguyen, Gaurav Dixit, <strong>Neale Ratzlaff</strong>, Weng-Keen Wong, Minsuk Kahng (<strong>IEEE VIS</strong>) 2021
+<p>Code: <a href=https://github.com/neale/neural-canvas>Github Repo</a>
+
+<div style="text-align:center"><img src="images/gallery_imgs/montage.png" /></div>
+
+<p>Neural canvas support much of the image generation projects that I take on. beyond the code here, which I am actively
+developing and adding to, there is just a lot of labor and experimental features. A couple years ago I found that
+implicit neural representations were pretty unsupported online beyond some NERF repositories, so I'm trying to remedy
+that. While neural-canvas could be used in an academic research context, its got a lot of features that are aimed at
+creative use. 
 </p>
 
-We design and evaluate a new visual interface that facilitates the comparison of the local distributions of training and test data. We conduct a quantitative user study on multi-attribute facial data to compare the learned latent representations of ImageNet CNNs vs. density ratio models, with two user analytic workflows.
-<div style="text-align:center"><img src="/images/vis_pic.png" /></div>
+<h3 id="Agent Artist">Agent Artist 🤗 🖌 🤗 </h3>
 
+<p>Code: <a href=https://github.com/neale/agent-artist>Github Repo</a>
+
+<div style="text-align:center"><img src="images/gallery_imgs/art_factory.png" /></div>
+
+<p>In the same vein as AutoGPT, the goal of agent-artist is to enable LLMs to act as agents toward arbitrary goals. 
+The difference is two-fold:
+</p>
+<p> * Support multimodal understanding -- MiniGPT4 / BLIP2 understand images for example </p>
+<p> * Support free and local models, where AutoGPT is focused on GPT3.5 and GPT4 </p>
+
+<p>
+True multimodal understanding enables a multimodal memory, instead of relying on text sumarization for recall and
+synthesis. 
+This work is still very much WIP
+</p>
+
+
+<h1 id="papers">📚📚 Selected Pubications 📚📚 </h1>
 
 <h3 id="generative-particle-variational-inference-via-estimation-of-functional-gradients"><a href="https://arxiv.org/abs/2103.01291">Generative Particle Variational Inference via Estimation of Functional Gradients</a></h3>
 
-<p><strong>Ratzlaff</strong><sup>☨</sup>, Bai<sup>☨</sup>, Fuxin, Xu. (<strong>ICML</strong>) 2021</p>
-
-<p>(☨): Equal Contribution</p>
+<p><strong>Ratzlaff</strong><sup>☨</sup>, Bai<sup>☨</sup>, Fuxin, Xu. (<strong>ICML</strong>) 2021(☨): Equal Contribution</p>
 
 <p>
 Code: <a href="https://github.com/HorizonRobotics/alf/">Github Repo</a>
@@ -86,6 +94,15 @@ Code: <a href="https://github.com/HorizonRobotics/alf/">Github Repo</a>
 <div style="text-align:center"><img src="images/2class-sin.png" /></div>
 
 <hr />
+
+<h3 id="constrastive-id"><a href=https://arxiv.org/abs/2108.08000">Contrastive Identification of Covariate Shift in Image Data</a></h3>
+
+<p>Matthew L. Olson, Thuy-Vy Nguyen, Gaurav Dixit, <strong>Neale Ratzlaff</strong>, Weng-Keen Wong, Minsuk Kahng (<strong>IEEE VIS</strong>) 2021
+</p>
+
+We design and evaluate a new visual interface that facilitates the comparison of the local distributions of training and test data. We conduct a quantitative user study on multi-attribute facial data to compare the learned latent representations of ImageNet CNNs vs. density ratio models, with two user analytic workflows.
+<div style="text-align:center"><img src="/images/vis_pic.png" /></div>
+
 
 <h3 id="avoiding-side-effects-in-complex-environments"><a href="https://128.84.21.199/abs/2006.06547">Avoiding Side-Effects in Complex Environments.</a></h3>
 
@@ -145,19 +162,19 @@ We enforce diversity by regularizing the intermediate representations to be well
     <a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/1j92gf94q">Uncertainty in Deep Learning with Implicit Neural Networks</a></h3>
 
 <p>
-PhD dissertation, Computer Science, Oregon State University (2021)
+🎓 PhD dissertation, Computer Science, Oregon State University (2021)
 </p>
 
 <h3 id="methods-for-detection-and-recovery-of-out-of-distribution-examples-ms-degree-computer-science-oregon-state-university-2018"><a href="https://ir.library.oregonstate.edu/concern/graduate_thesis_or_dissertations/mw22vb88d">Methods for Detection and Recovery of Out-of-Distribution Examples.</a> </h3>
 
 <p>
-M.S. Thesis Computer Science. Oregon State University (2018)
+🎓 M.S. Thesis Computer Science. Oregon State University (2018)
 </p>
 <div style="text-align:center"><img src="images/class.png" /> <img src="images/density.png" /> </div>
 
 <hr />
 
-<h1 id="code">Code</h1>
+<h1 id="code">Older Code</h1>
 
 <p>I maintain and work on various other projects, all deep learning related. Pretty much all of them are in PyTorch.</p>
 
@@ -167,14 +184,7 @@ M.S. Thesis Computer Science. Oregon State University (2018)
   <li><a href="https://github.com/neale/CPPN">Compositional Pattern Producing Networks</a></li>
   <li><a href="https://github.com/neale/PySMTDNN">Satisfiable Neural Networks (PySMT-DNN)</a></li>
 </ul>
-
 <hr />
 
-<h1 id="generative-art">Generative Art</h1>
-
-<p>Inspired by <a href="http://blog.otoro.net/">Hardmaru</a>, I build evolutionary creative machines. There is gallery of examples <a href="/genart">here</a></p>
-
-    </main>
-  </body>
   {% endblock %}
 </html>

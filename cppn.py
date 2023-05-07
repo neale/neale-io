@@ -99,7 +99,7 @@ class CPPN(object):
 
     def init_generator(self, random_generator=False, seed=None):
         if random_generator:
-            generator = RandomGenerator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
+            generator = GeneratorRandomAct(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
         else:
             generator = Generator(self.z_dim, self.c_dim, self.layer_width, self.z_scale)
         self.generator = torch.jit.script(self._init_weights(generator))
@@ -213,7 +213,7 @@ def run_cppn(cppn, uid, autosave=False, z=None):
                             batch_size=1)[0].numpy() * 255. for z_i in z_batch]
 
         n = np.random.randint(99999999)
-        if cppn.generator.name == 'RandomGenerator':
+        if cppn.generator.name == 'GeneratorRandomAct':
             randgen = 1
         else:
             randgen = 0

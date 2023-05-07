@@ -1,0 +1,325 @@
+body {
+  background: #000000; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #000000, #434343); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #000000, #434343); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+
+.outercontainer {
+  max-width: 70%;
+  margin: 0 auto;
+  margin-top: 6em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  padding: 0;
+}
+
+
+.card1 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 1em;
+    text-align: center;
+    margin-right: 2em;
+    margin-left 2em;
+    color: gainsboro;
+}
+
+.card1:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card1 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer1 {
+  padding: 2px 16px;
+}
+
+.card2 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 1em;
+    margin-left: 2em;
+    margin-right: 2em;
+    text-align: center;
+    color: gainsboro;
+}
+
+.card2:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card2 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer2 {
+  padding: 2px 16px;
+}
+
+.card4 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 1em;
+    text-align: center;
+    margin-right: 2em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card4:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card4 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer4 {
+  padding: 2px 16px;
+}
+
+.card5 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 1em;
+    text-align: center;
+    margin-right: 4em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card5:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card5 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer5 {
+  padding: 2px 16px;
+}
+
+.card6 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 4em;
+    text-align: center;
+    margin-right: 4em;
+    margin-left: 2em;
+    color: gainsboro;
+}
+
+.card6:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card6 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer6 {
+  padding: 2px 16px;
+}
+
+.card7 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 4em;
+    text-align: center;
+    margin-right: 4em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card7:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card7 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer7 {
+  padding: 2px 16px;
+}
+.card8 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 4em;
+    text-align: center;
+    margin-right: 4em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card8:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card8 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer8 {
+  padding: 2px 16px;
+}
+.card9 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 4em;
+    text-align: center;
+    margin-right: 4em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card9:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card9 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer9 {
+  padding: 2px 16px;
+}
+.card11 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 4em;
+    text-align: center;
+    margin-bottom: 5em;
+    margin-right: 4em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card11:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card11 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer11 {
+  padding: 2px 16px;
+}
+.card10 {
+    cursor: pointer;
+    display: block;
+    box-shadow: -10px 11px 7px 2px rgb(0 0 0 / 20%);
+    transition: 0.3s;
+    /* width: 20%; */
+    border-radius: 5px;
+    height: 20%;
+    margin-top: 4em;
+    text-align: center;
+    margin-right: 4em;
+    margin-bottom: 5em;
+    margin-left: 2em;
+    color: gainsboro;
+
+}
+
+.card10:hover {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  color: gainsboro;
+}
+
+.card10 img {
+  border-radius: 5px 5px 0 0;
+  width: 50%;
+  height: 50%;
+}
+
+.cardcontainer10 {
+  padding: 2px 16px;
+}
+

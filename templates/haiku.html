@@ -1,0 +1,125 @@
+<!doctype html>
+{%extends "base.html" %}
+
+{%block title %}
+Haiku
+{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/haiku.css') }}">
+<div class="row">
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="The Pool" alt="I finally have time. To be in the pool’s stillness. Let me sit and read." src="/images/gallery_imgs/haiku/small/the_pool.jpg">
+        <span class="overlay">The Pool</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Commute" alt="A traffic jam on. A hot summer day is not. My favorite pastime" src="/images/gallery_imgs/haiku/small/commuting.jpg">
+        <span class="overlay">Commute</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="My Brother and the Sea" alt="Tide is coming in. My brother crests a new wave. He is one with the sea" src="/images/gallery_imgs/haiku/small/my_brother_and_the_ocean.jpg">
+        <span class="overlay">My Brother and the Sea</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Los Angeles" alt="Palm trees and billboards. The sun sets behind the hills. The city lights up" src="/images/gallery_imgs/haiku/small/los_angeles.jpg">
+        <span class="overlay">Los Angeles</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Work" alt="Work keeps me indoors. Freedom of the open sky. Tick tock goes the clock" src="/images/gallery_imgs/haiku/small/work.jpg">
+        <span class="overlay">Work</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Modern Art" alt="Its easy to make. Even a child can do it. Is it really art?" src="/images/gallery_imgs/haiku/small/modern_art.jpg">
+        <span class="overlay">Modern Art</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Hot" alt="Hot sun, lazy day. Slowly sinking into sand. Dreams of a cold beer" src="/images/gallery_imgs/haiku/small/hot.jpg">
+        <span class="overlay">Hot</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Together" alt="Time is short, you know? Better than anyone right? Lets enjoy each moment" src="/images/gallery_imgs/haiku/small/together.jpg">
+        <span class="overlay">Together</span>
+    </div>
+  </div>
+  <div class="column3">
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Chances" alt="Jumping from a cliff. Into the unknown below. Is it worth the risk?" src="/images/gallery_imgs/haiku/small/chances.jpg">
+        <span class="overlay">Chances</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Caretaker" alt="The plants need their water. She waters them in the heat. They grow and they thrive" src="/images/gallery_imgs/haiku/small/caretaker.jpg">
+        <span class="overlay">Caretaker</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="Sunday Morning" alt="Bikes rode on the beach. The Sun shining down on them. They look so happy." src="/images/gallery_imgs/haiku/small/sunday_morning.jpg">
+        <span class="overlay">Sunday Morning</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" title="My Life At 30" alt="What should I become. A plant, a rock, or the wind. I wonder, I wonder" src="/images/gallery_imgs/haiku/small/my_life_at_30.jpg">
+        <span class="overlay">My Life at 30</span>
+    </div>
+  </div>
+</div>
+
+<div class="outer">
+    <div class="d">
+        <p> Summer in 2022 is going by quickly, and I wanted to capture what it
+        was like to be in a new state that's so different then where I came from.
+        Haiku is driven primarily by two text to image models: DALLE-2, and a
+        latent diffusion model from LMU Munich that I fine-tuned. In each image
+        I tried to show a different new routine or feeling that I've had this 
+        summer that's unique from the ones before. <br><br><br>
+        The Haiku's themselves are authored by a GPT-3 style model that 
+        generates a poem when provided an image and its title. So in some sense
+        I had no hand in creating these, though they reflect my time here better 
+        than I could have expressed on my own. In some examples here, the haiku's don't
+        fit the 5-7-5 requirement. But I left them if they looked good and were 
+        otherwise stylistically  on target. I think its just GPT knowingly breaking 
+        the rules.
+        </p>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+  <div id="title"></div>
+  <span class="close">&times;</span>
+  <img id="modal-img" class="modal-content"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQS2ol73JZj6-IqypxPZXYS3rRiPwKteoD8vezk9QsRdkjt3jEn&usqp=CAU">
+      
+  <div id="caption"></div>
+</div>
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+// var img = document.getElementById("myImg");
+var titleText = document.getElementById("title");
+var modalImg = document.getElementById("modal-img");
+var captionText = document.getElementById("caption");
+
+document.addEventListener("click", (e) => {
+  const elem = e.target;
+  if (elem.id==="myImg") {
+    modal.style.display = "block";
+    modalImg.src = elem.dataset.biggerSrc || elem.src;
+    captionText.innerHTML = elem.alt; 
+    titleText.innerHTML = elem.title; 
+  }
+})
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
+{% endblock %}
+

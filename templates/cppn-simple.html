@@ -23,7 +23,7 @@ Controlled Compositional Pattern Producing Network
         <!-- generate image with current settings -->
             <button 
                 type="button"
-                id="random-gen-btn"
+                id="random-gen-btn-simple"
                 onclick="window.location.href='{{ url_for('generate_image') }}'"
                 class="btn btn-lg btn-danger btn-spacing btn-width btn-size">
                 Generate
@@ -70,7 +70,7 @@ Controlled Compositional Pattern Producing Network
                         </button>
                         </a> 
                     </div>
-                    <div class='desktop4-container'>
+                    <!--!<div class='desktop4-container'>
                         <a href="/download-desktop4" target="_self">
                         <button class='dropdown-item'
                             id=save-4k
@@ -78,6 +78,7 @@ Controlled Compositional Pattern Producing Network
                         </button>
                         </a> 
                     </div>
+		    -->
                     <div class='square2-container'>
                         <a href="/download-square2" target="_self">
                         <button class='dropdown-item'
@@ -86,6 +87,7 @@ Controlled Compositional Pattern Producing Network
                         </button>
                         </a> 
                     </div>
+		    <!--
                     <div class='square4-container'>
                         <a href="/download-square4" target="_self">
                         <button class='dropdown-item'
@@ -94,6 +96,7 @@ Controlled Compositional Pattern Producing Network
                         </button>
                         </a> 
                     </div>
+		    -->
 	        </div>
             </div>
             <button 
@@ -153,7 +156,7 @@ Controlled Compositional Pattern Producing Network
 function randint(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
-var random_gen_btn = document.getElementById('random-gen-btn');
+var random_gen_btn_simple = document.getElementById('random-gen-btn-simple');
 img = document.getElementById("main-img"),
     slide_z = document.getElementById('z_range'),
     sliderDiv_z = document.getElementById("z_range_slider_amount"),
@@ -162,7 +165,7 @@ img = document.getElementById("main-img"),
     slide_z_scale = document.getElementById('z_scale_range'),
     sliderDiv_z_scale = document.getElementById("z_scale_range_slider_amount");
 
-random_gen_btn.onclick = function() {
+random_gen_btn_simple.onclick = function() {
     var z_rand = randint(2, 8);
     var net_width_rand = randint(2, 20);
     var scale_rand = randint(2, 128);
@@ -186,9 +189,9 @@ random_gen_btn.onclick = function() {
                 data: {"clear": true, "random-gen": true},
                 success: function(response){
                     console.log('set new random image:', response.img);
-                    console.log('set new random gallary:', response.recent1);
-		    console.log('name:', response.gen_name);
-		    console.log('act order:', response.gen_act); 
+                    console.log('set new random gallary main:', response.recent1);
+		            console.log('name:', response.gen_name);
+		            console.log('act order:', response.gen_act); 
                     $("#main-img").attr('src', response.img);
                     $("#recent0").attr('src', response.recent1);
                     $("#recent1").attr('src', response.recent2);
@@ -196,7 +199,8 @@ random_gen_btn.onclick = function() {
                     $("#recent3").attr('src', response.recent4);
                     $("#recent4").attr('src', response.recent5);
                     $("#recent5").attr('src', response.recent6);
-		    console.log('setting 8 images: ', response.recent9);
+                    console.log('[DEBUG] setting 6 recent images');
+                    console.log('[DEBUG] /generate-image response', response);
                 },
                 error: function(error){
                     alert(response);
@@ -219,10 +223,12 @@ random_gen_btn.onclick = function() {
     var gallary4 = document.getElementById('recent4');
     var gallary5 = document.getElementById('recent5');
     gallary0.onclick = function() {
+        console.log('click 0');
         $.post({
-            url: '/regenerate-image',
+            url: "/regenerate-image",
             data: {"set_to": 0},
             success: function(response){
+                console.log('response', response);
                 console.log('Click: set new image:', response.img);
                 console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);
@@ -235,10 +241,12 @@ random_gen_btn.onclick = function() {
 
     }
     gallary1.onclick = function() {
+        console.log('click 1');
         $.post({
             url: '/regenerate-image',
             data: {"set_to": 1},
             success: function(response){
+                console.log('response', response);
                 console.log('Click: set new image:', response.img);
                 console.log('Img path: ', response.img_path_orig);
                 $("#main-img").attr('src', response.img);

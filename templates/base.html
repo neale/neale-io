@@ -2,27 +2,53 @@
 
 <html>
   <head>
+    <meta property="og:title" content="Moseyic" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:description" content="Implicit is Sometimes Better than Explicit" />
+    <meta property="og:url" content="https://neale.io/"/>
+    <meta property="og:site_name" content="Neale Ratzlaff" />
+    <meta property="og:image" content="http://neale.io/images/moseyic_logo_sm.png"/>
+    <meta property="og:image:url" content="http://neale.io/images/moseyic_logo_sm.png"/>
+    <meta property="og:image:secure_url" content="https://neale.io/images/moseyic_logo_sm.png"/>
+
+    <meta charset="UTF-8"/>
+    <meta name="description" content="Implicit is Sometimes Better than Explicit" />
+    <title>Neale Ratzlaff | Implicit is Sometimes Better than Explicit</title>
+    <meta name="generator" content="Jekyll v4.0.0" />
+    <link rel="canonical" href="https://neale.io/" />
+
+    <!--
+    <script type="application/ld+json">
+    {"headline":"Neale Ratzlaff","url":"https://neale.io/","name":"Neale Ratzlaff","description":"Implicit is Sometimes Better than Explicit","image":"https://neale.io/images/moseyic_smaller.jpg","@type":"WebSite","@context":"https://schema.org"}</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#157878">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/base.css') }}">
 
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="/"></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-            </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-left">
+                        <a class="nlink" href="/gallery">  <img src="/images/moseyic.png"></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item-right">
+                        <a class="nav-link" href="/gallery">Gallery</a>
+                    </li>
+                    <li class="nav-item-right">
+                        <a class="nav-link" href="/cppn-simple">CPPN</a>
+                    </li>
+                    <li class="nav-item-right">
                         <a class="nav-link" href="https://github.com/neale">Github</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cppn-simple">CPPN</a>
+                    <li class="nav-item-right">
+                        <a class="nav-link" href="/profile">Profile</a>
                     </li>
                 </ul>
             </div>

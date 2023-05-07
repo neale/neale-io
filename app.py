@@ -43,9 +43,61 @@ def home():
     return render_template("index.html")
 
 
+@app.route('/profile')
+def profile():
+    return render_template("index.html")
+
 @app.route('/genart')
 def genart():
     return render_template("genart.html")
+
+@app.route('/gallery')
+def gallery():
+    return render_template("gallery.html")
+
+@app.route('/hyperevolve')
+def hyperevolve():
+    return render_template("hyperevolve.html")
+
+@app.route('/digitalflow')
+def digitalflow():
+    return render_template("digitalflow.html")
+
+@app.route('/haiku')
+def gallery_haiku():
+    return render_template("haiku.html")
+
+@app.route('/untitled')
+def gallery_untitled():
+    return render_template("untitled.html")
+
+@app.route('/windows')
+def gallery_windows():
+    return render_template("windows.html")
+
+@app.route('/windows2')
+def gallery_windows2():
+    return render_template("windows2.html")
+
+@app.route('/flow1')
+def gallery_flow1():
+    return render_template("flow-series1.html")
+
+@app.route('/flow2')
+def gallery_flow2():
+    return render_template("flow-series2.html")
+
+@app.route('/flow3')
+def gallery_flow3():
+    return render_template("flow-series3.html")
+
+@app.route('/llmashup')
+def gallery_llmashup():
+    return render_template("llmashup.html")
+
+@app.route('/animations')
+def animations():
+    return render_template("animations.html")
 
 def get_initial_config():
    return  {'z_dim'    : 4,
@@ -238,12 +290,12 @@ def generate_image(clear=False, random_gen=False):
             name = samples[i].split('static/')[1]
             ret[f'recent{i}'] = name
         ret['gen_name'] = str(cppn.generator.name)
-        if cppn.generator.name == 'RandomGenerator':
-            act_order = [str(a.__repr__()) for a in cppn.generator.acts]
-            print ('act order: ', act_order)
-            ret['gen_act'] = act_order
-            session['last_act_order'] = act_order
-            session.modified = True
+        
+        act_order = [str(a.__repr__()) for a in cppn.generator.acts]
+        print ('act order: ', act_order)
+        ret['gen_act'] = act_order
+        session['last_act_order'] = act_order
+        session.modified = True
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})
@@ -452,8 +504,6 @@ def regenerate_image():
         # load image and grab config --> set to session config
         img_prefix = imgs[0].split('.tif')[0]
         img_path = img_prefix[:-1]+str(idx)+'.tif'
-        print (img_path, idx)
-        print ()
         with tifffile.TiffFile(img_path) as tif:
             metadata = tif.shaped_metadata[0]
 
@@ -468,23 +518,39 @@ def regenerate_image():
         else:
             randgen = False
 
-        session.modified=True
+        session.modified = True
         noise = literal_eval(metadata['z_sample'])
+        
         cppn = init_cppn(uid=session['uid'], rand=False)
         if cppn.generator is None:
             cppn.init_generator(random_generator=randgen)
+        
         sample = cppn.sample_frame(
             torch.as_tensor(noise),
             session['cppn_config']['x_dim'],
             session['cppn_config']['y_dim'],
             batch_size=1)
+
         assert sample is not None, "sample is None"
         sample = sample[0].numpy() * 255.
         img_path = f'{sample_dir}{np.random.randint(99999)}tmp_lrg{idx}'
         cppn._write_image(img_path, sample, 'jpg')
         img_path = img_path.split('static/')[1]
-        ret = {'img': f'{img_path}.jpg',
-               'img_path_orig': img_prefix}
+        ret = {
+            'img': f'{img_path}.jpg',
+            'img_path_orig': img_prefix
+        }
+        return jsonify({
+            'fn_exist': fn_exist,
+            'jpg': jpgs,
+            'imgs': imgs,
+            'curr idx': session['curr_img_idx'],
+            'img_path': img_path,
+            'randgen': randgen,
+            'img': ret['img'],
+            'img_path_orig': ret['img_path_orig'],
+            'idx': idx
+        })
         return jsonify(ret)
     else:
         return jsonify({'img': 'image_12.png'})
@@ -591,7 +657,7 @@ def user(name):
 
 @app.route("/")
 def root():
-    return redirect("/home")
+    return redirect("/gallery")
 
 
 if __name__ == '__main__':

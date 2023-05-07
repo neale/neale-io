@@ -1,0 +1,77 @@
+<!doctype html>
+{%extends "base.html" %}
+
+{%block title %}
+Gallery
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/gallery.css') }}">
+
+<div class="outercontainer">
+	<a class="card1" href="/hyperevolve">
+	  <img src="/images/gallery_imgs/autoevolve/time_wizard.jpg" alt="HyperEvolution" style="width:100%">
+	  <div class="cardcontainer1">
+	    <h4><b>HyperEvolution</b></h4>
+	  </div>
+	</a>
+	<a class="card2" href="/digitalflow">
+	  <img src="/images/gallery_imgs/digitalflow/emergence.jpg" alt="DigitalFlow" style="width:100%">
+	  <div class="cardcontainer2">
+	    <h4><b>Digital Flow</b></h4>
+	  </div>
+	</a>
+	<a class="card4" href="/haiku" title="">
+	  <img src="/images/gallery_imgs/haiku/the_pool.jpg" alt="Haiku" style="width:100%">
+	  <div class="cardcontainer4">
+	    <h4><b>Haiku</b></h4>
+	  </div>
+	</a>
+ 	<a class="card5" href="/untitled" title="">
+	  <img src="/images/gallery_imgs/untitled/untitled8.jpg" alt="Untitled" style="width:100%">
+	  <div class="cardcontainer5">
+	    <h4><b>Untitled</b></h4>
+	  </div>
+	</a>
+  	<a class="card6" href="/windows" title="">
+	  <img src="/images/gallery_imgs/windows/VV4_2.png" alt="Windows" style="width:100%">
+	  <div class="cardcontainer6">
+	    <h4><b>Windows</b></h4>
+	  </div>
+	</a>
+   	<a class="card7" href="/windows2" title="">
+	  <img src="/images/gallery_imgs/windows2/windows_2_26.png" alt="Windows2" style="width:100%">
+	  <div class="cardcontainer7">
+	    <h4><b>R-Forms</b></h4>
+	  </div>
+    </a>
+    <a class="card8" href="/flow1" title="">
+	  <img src="/images/gallery_imgs/flow-series1/flow1_08.png" alt="Flow1" style="width:100%">
+	  <div class="cardcontainer8">
+	    <h4><b>Flow1</b></h4>
+	  </div>
+	</a>
+   	<a class="card9" href="/flow2" title="">
+	  <img src="/images/gallery_imgs/flow-series2/flow2_44.png" alt="Flow2" style="width:100%">
+	  <div class="cardcontainer9">
+	    <h4><b>Flow2</b></h4>
+	  </div>
+	</a>
+  	<a class="card10" href="/flow3" title="">
+	  <img src="/images/gallery_imgs/flow-series3/flow3_41.png" alt="Flow3" style="width:100%">
+	  <div class="cardcontainer10">
+	    <h4><b>Flow3</b></h4>
+	  </div>
+	</a>
+
+  	<a class="card11" href="/llmashup" title="">
+	  <img src="/images/gallery_imgs/llmashup/output_01.png" alt="llmashup" style="width:100%">
+	  <div class="cardcontainer11">
+	    <h4><b>LLMashup</b></h4>
+	  </div>
+	</a>
+</div>
+
+
+{% endblock %}
+
