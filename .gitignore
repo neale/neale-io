@@ -130,3 +130,6 @@ dmypy.json
 
 .tiff
 cppn_images/
+gallery_imgs/
+images/
+.csv
