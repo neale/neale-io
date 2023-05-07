@@ -1,0 +1,190 @@
+<!doctype html>
+{%extends "base.html" %}
+
+{%block title %}
+HyperEvolution
+{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/autoevolve.css') }}">
+<div class="row">
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/birb.jpg">
+        <span class="overlay">Birb</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/diamond1.jpg">
+        <span class="overlay">Diamond1</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/mayan_cyber_god.jpg">
+        <span class="overlay">Mayan Cyber God</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/shadow.jpg">
+        <span class="overlay">Shadow</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/vinyl_dreams.jpg">
+        <span class="overlay">Vinyl Dreams</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/profile.jpg">
+        <span class="overlay">Profile</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/outer_disapproval.jpg">
+        <span class="overlay">Outer Disapproval</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/future_machine.jpg">
+        <span class="overlay">Future Mechanics</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/karen_grid.jpg">
+        <span class="overlay">Malice</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/cosmic_animal1.jpg">
+        <span class="overlay">Cosmic Animal1</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/fairy_boy.jpg">
+        <span class="overlay">Fairy Boy</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/cosmic_animal2.jpg">
+        <span class="overlay">Cosmic Animal2</span>
+    </div>
+  </div>
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/turn.jpg">
+        <span class="overlay">Turn</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/diamond2.jpg">
+        <span class="overlay">Diamond2</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/worhol_wifi_grid.jpg">
+        <span class="overlay">Worhol Wifi</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/business_fish.jpg">
+        <span class="overlay">Business</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/time_wizard.jpg">
+        <span class="overlay">Time Wizard</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/mega_clam.jpg">
+        <span class="overlay">Pearl</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/astronaut_grid.jpg">
+        <span class="overlay">Void Explorer</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/hyper_mushroom.jpg">
+        <span class="overlay">Spore</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/silicon_city.jpg">
+        <span class="overlay">Silicon City</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/neon_wave.jpg">
+        <span class="overlay">Neon Wave</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/cosmic_animal3.jpg">
+        <span class="overlay">Cosmic Animal3</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/autoevolve/fire_in_the_hot_sun.jpg">
+        <span class="overlay">Wither</span>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img id="modal-img" class="modal-content"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQS2ol73JZj6-IqypxPZXYS3rRiPwKteoD8vezk9QsRdkjt3jEn&usqp=CAU">
+      
+  <div id="caption"></div>
+</div>
+
+<div class="outer">
+    <div class="d">
+        <p> Hyperevolution was the first collection I ever made. Lots of experimentation
+        went into it, and ultimately I decided that the art was coherent enough to post.
+        All the pieces that make up Hyperevolution were generated at once, using a
+        compositional 
+        pattern producing network (CPPN). I'm not the first to use CPPNs for generative art, 
+        but I think I have refined the process somewhat.
+        <br><br>
+        At a birds-eye level, a CPPN is a function that takes in a coordinate, and outputs 
+        a value. The CPPN can be used to generate an entire image by passing in all xy 
+        coordinate pairs. Normally, the CPPN is implemented as a feed-forward neural network 
+        with randomly initialized weights. Where neural networks normally are used with 
+        trained weights on some data, CPPNs can work with randomly initialized weights. 
+        The output can be thought of as a visualization of the neural network itself
+        <em> tabula rasa</em>. One benefit of CPPNs is that they are agnostic to the 
+        size of the image generated -- its trivial to generate a 10K x 10K image 
+        provided you have enough compute. 
+        <br><br>
+        I made some changes to the generation process to get more pleasing results. CPPNs 
+        naturally output vibrant and striking images, but there is usually little in 
+        terms of structure. I used some custom nonlinear activation functions, most 
+        importantly a damped sineusoid at the output to get more localized (bounded) effects. 
+        There's a lot of room for experimentation, and I'll likely be trying more tweaks in 
+        the future. 
+        <br><br>
+    </div>
+    <div class="networks">
+        <div class="netpic"><img id="graphImg" src="/images/WS_6nodes.png"></div>
+    </div>
+</div>
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+// var img = document.getElementById("myImg");
+var modalImg = document.getElementById("modal-img");
+var captionText = document.getElementById("caption");
+// img.onclick = function(){
+//   modal.style.display = "block";
+//   modalImg.src = this.src;
+//   captionText.innerHTML = this.alt;
+// }
+
+
+document.addEventListener("click", (e) => {
+  const elem = e.target;
+  if (elem.id==="myImg") {
+    modal.style.display = "block";
+    modalImg.src = elem.dataset.biggerSrc || elem.src;
+    captionText.innerHTML = elem.alt; 
+  }
+})
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
+{% endblock %}
+

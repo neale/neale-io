@@ -1,0 +1,58 @@
+.navbar-expand-lg .navbar-collapse {
+    display: block!important;
+    margin-left: auto;
+    margin-right: 0;
+}
+.nav-link {
+    color: gainsboro!important;
+    background-color: black;
+}
+.navbar {
+    display: block!important;
+    background-color: black;
+    color: gainsboro!important;
+}
+
+.navbar-nav {
+    color: gainsboro!important;
+    background-color: black;
+}
+
+.bg-light {
+    background-color: black!important;
+    color: gainsboro;
+}
+.navbar-light {
+    color: gainsboro!important;
+    background-color: black;
+}
+
+.navbar-nav.active {
+    color: gainsboro!important;
+    background-color: black;
+}
+
+a img {
+    max-width: 12em;
+    height: auto;
+    vertical-align: middle;
+}
+
+.nlink {
+    display: inline-block;
+}
+
+.nav-item-right {
+    margin-left: .5em;
+    margin-right: .5em;
+}
+.nav-left {
+    margin-right: auto;
+    margin-left: 0;
+}
+.navbar-expand-lg .navbar-nav {
+    flex-direction: row;
+    margin-left: auto;
+    margin-right: 0;
+    justify-content: flex-end;
+}

@@ -1,0 +1,192 @@
+<!doctype html>
+{%extends "base.html" %}
+
+{%block title %}
+Untitled
+{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/untitled.css') }}">
+<div class="row">
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled2.jpg">
+        <span class="overlay">Untitled 2</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled1.jpg">
+        <span class="overlay">Untitled 1</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled25.jpg">
+        <span class="overlay">Untitled 25</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled3.jpg">
+        <span class="overlay">Untitled 3</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled4.jpg">
+        <span class="overlay">Untitled 4</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled5.jpg">
+        <span class="overlay">Untitled 5</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled6.jpg">
+        <span class="overlay">Untitled 6</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled7.jpg">
+        <span class="overlay">Untitled 7</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled8.jpg">
+        <span class="overlay">Untitled 8</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled9.jpg">
+        <span class="overlay">Untitled 9</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled15.jpg">
+        <span class="overlay">Untitled 15</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled26.jpg">
+        <span class="overlay">Untitled 26</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled11.jpg">
+        <span class="overlay">Untitled 11</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled13.jpg">
+        <span class="overlay">Untitled 13</span>
+    </div>
+  </div>
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled12.jpg">
+        <span class="overlay">Untitled 12</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled10.jpg">
+        <span class="overlay">Untitled 10</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled14.jpg">
+        <span class="overlay">Untitled 14</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled16.jpg">
+        <span class="overlay">Untitled 16</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled17.jpg">
+        <span class="overlay">Untitled 17</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled18.jpg">
+        <span class="overlay">Untitled 18</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled27.jpg">
+        <span class="overlay">Untitled 27</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled19.jpg">
+        <span class="overlay">Untitled 19</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled28.jpg">
+        <span class="overlay">Untitled 28</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled20.jpg">
+        <span class="overlay">Untitled 20</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled21.jpg">
+        <span class="overlay">Untitled 21</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled22.jpg">
+        <span class="overlay">Untitled 22</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled23.jpg">
+        <span class="overlay">Untitled 23</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/untitled/untitled24.jpg">
+        <span class="overlay">Untitled 24</span>
+    </div>
+  </div>
+
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img id="modal-img" class="modal-content"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQS2ol73JZj6-IqypxPZXYS3rRiPwKteoD8vezk9QsRdkjt3jEn&usqp=CAU">
+      
+  <div id="caption"></div>
+</div>
+
+<div class="outer">
+    <div class="d">
+        <p> This series remains untitled.  
+        <br><br>
+        Untitled is the heaviest collection so far in terms of compute and 
+        post-processing. I used the same 
+        generation pipeline as DigitalFlow, but added an addtional stage at the end. 
+        I had been experimenting with Perlin and Simplex noise as a way of breathing a 
+        little more life into my pieces. The art I usually generate is sharp and can 
+        feel extremely loud. I wanted to make something softer, art that could take up a full 
+        wall without dominating the space. I found that Perlin and Simplex noise added 
+        a more natural feel when used as forward mapping transform (warping). Untitled is the 
+        result of that process after some color grading and cleaning of spurious noisey 
+        components. 
+        </p>
+    </div>
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+// var img = document.getElementById("myImg");
+var modalImg = document.getElementById("modal-img");
+var captionText = document.getElementById("caption");
+// img.onclick = function(){
+//   modal.style.display = "block";
+//   modalImg.src = this.src;
+//   captionText.innerHTML = this.alt;
+// }
+
+
+document.addEventListener("click", (e) => {
+  const elem = e.target;
+  if (elem.id==="myImg") {
+    modal.style.display = "block";
+    modalImg.src = elem.dataset.biggerSrc || elem.src;
+    captionText.innerHTML = elem.alt; 
+  }
+})
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
+{% endblock %}
+

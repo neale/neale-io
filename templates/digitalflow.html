@@ -1,0 +1,226 @@
+<!doctype html>
+{%extends "base.html" %}
+
+{%block title %}
+DigitalFlow
+{% endblock %}
+
+{% block content %}
+
+
+<link rel="stylesheet" type="text/css" href= "{{ url_for('static',filename='css/digitalflow.css') }}">
+<div class="row">
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/Dilated.jpg">
+        <span class="overlay">Dilated</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/acid_head.jpg">
+        <span class="overlay">Acid Head</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/alien_forest.jpg">
+        <span class="overlay">Alien Forest</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/birdbrain.jpg">
+        <span class="overlay">BirdBrain</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/acid_jet.jpg">
+        <span class="overlay">Poison Jet</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/brain_matter.jpg">
+        <span class="overlay">Brain Matter</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/digital_donut.jpg">
+        <span class="overlay">DigiDonut</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/dripdown.jpg">
+        <span class="overlay">DripDown</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/emergence.jpg">
+        <span class="overlay">Emergence</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/gasmask.jpg">
+        <span class="overlay">Gas Mask</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/gloop.jpg">
+        <span class="overlay">Gloop</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/gravity_well.jpg">
+        <span class="overlay">Gravity Well</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/drip1.jpg">
+        <span class="overlay">Drip1</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/hyper_tube.jpg">
+        <span class="overlay">Hyper Tube</span>
+    </div>
+  </div>
+  <div class="column1">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/hyper_freeza.jpg">
+        <span class="overlay">Hyper Freeza</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/maskman_grid.jpg">
+        <span class="overlay">MaskMen</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/match_made_in_dreams.jpg">
+        <span class="overlay">O2</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/overknight.jpg">
+        <span class="overlay">Overknight</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/pride_weapons.jpg">
+        <span class="overlay">Pride Weapons</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/swim.jpg">
+        <span class="overlay">Swim</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/shai_hulud.jpg">
+        <span class="overlay">Shai Hulud</span>
+    </div>
+  </div>
+  <div class="column2">
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/smileman_grid.jpg">
+        <span class="overlay">SmileMen</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/the_watcher.jpg">
+        <span class="overlay">The Watcher</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/self_reflection.jpg">
+        <span class="overlay">Self Reflection</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/margarita.jpg">
+        <span class="overlay">Margarita</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/wave_cut.jpg">
+        <span class="overlay">Periodicity</span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/meta_flame.jpg">
+        <span class="overlay">O3<span>
+    </div>
+    <div class="container">
+        <img id="myImg" class="img-fluid" src="/images/gallery_imgs/digitalflow/disc_one_of_two.jpg">
+        <span class="overlay">Disc 1 of 2</span>
+    </div>
+  </div>
+</div>
+
+<div id="myModal" class="modal">
+  <span class="close">&times;</span>
+  <img id="modal-img" class="modal-content"  src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQS2ol73JZj6-IqypxPZXYS3rRiPwKteoD8vezk9QsRdkjt3jEn&usqp=CAU">
+      
+  <div id="caption"></div>
+</div>
+
+<div class="outer">
+    <div class="d">
+        <p> Like with HyperEvolution, the backbone tool used to generate each image
+        for DigialFlow is a compositional pattern prodicing network (CPPN). CPPNs 
+        have found a central place in my process, as using them for basic pattern
+        generation is so fast.
+        In their basic form that I usually see in machine learning papers, and also some
+        generative art portfolios, CPPNs are pretty simple and don't offer a lot of variation
+        beyond basic patterns and waves. The exceptions being the original Picbreeder
+        implementation as well as Hardmaru, who evolve the architecture itself to 
+        get some more dynamic outputs. 
+        <br><br>
+        My process for DigitalFlow was pretty straightforward. I first generate upwards of 
+        ten thousand proposal images, then sift through them all manually to find 
+        exceptional examples. I don't have to explicitly photoshop anything, but sometimes
+        I'll do basic color grading or a color space transform. 
+        <br><br>
+        The look and feel of DigitalFlow is noticably different from HyperEvolution, even
+        though they both utilize CPPN generators. Where HyperEvolution images fill the
+        space with lively 
+        form and color, the pictures in DigitalFlow often take place in a great void. The 
+        sharp colors keep the designs from feeling eerie, but remain distinctly alien. 
+        To achieve this effect, I experimented with lots of different knobs and levers of
+        the generation process. The most basic change was to initilize the weights from a
+        different distribution, and constrain the initialized weights to a specific range.  
+        Another change was to use a larger set of smooth nonlinear activation functions,
+        instead of piecewise smooth funcitons like hard tanh or ReLU. 
+        <br><br>
+        The most interesting part
+        of DigitalFlow, and what sets it apart from other collections, is the random graph 
+        generation for the generator architecture. The computational graph for a basic generator
+        has a simple structure with xyz inputs, and little intermediate processing
+        before the output. For DigitalFlow I generated a random Watts-Strogatz graph that
+        served as the backbone of the network. I constructed the neural network by
+        traversing the
+        graph and translating nodes into corresponding pytorch modules. I got the idea from 
+        a paper on random network generation for image classification from Kaiming He's group
+        at FAIR. It ended up working well, but I found that more nodes in the graph didn't
+        yield better looking results necessarily. In the future I'll probably look at what 
+        kinds of constraints on the graph make the best looking outputs. I also
+        need to experiment with different graph generation algorithms. 
+        </p>
+    </div>
+    <div class="networks">
+        <div class="netpic"><img id="graphImg" src="/images/WS_12nodes.png"></div>
+        <div class="netpic"><img id="graphImg" src="/images/WS_40nodes.png"></div>
+        <div class="netpic"><img id="graphImg" src="/images/WS_75nodes.png"></div>
+    </div>
+</div>
+
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+// var img = document.getElementById("myImg");
+var modalImg = document.getElementById("modal-img");
+var captionText = document.getElementById("caption");
+// img.onclick = function(){
+//   modal.style.display = "block";
+//   modalImg.src = this.src;
+//   captionText.innerHTML = this.alt;
+// }
+
+
+document.addEventListener("click", (e) => {
+  const elem = e.target;
+  if (elem.id==="myImg") {
+    modal.style.display = "block";
+    modalImg.src = elem.dataset.biggerSrc || elem.src;
+    captionText.innerHTML = elem.alt; 
+  }
+})
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+  modal.style.display = "none";
+}
+</script>
+{% endblock %}
+

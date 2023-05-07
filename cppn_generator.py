@@ -40,6 +40,9 @@ class Generator(nn.Module):
         self.linear_r = nn.Linear(1, self.layer_width, bias=False)
         self.linear_h = nn.Linear(self.layer_width, self.layer_width)
         self.linear_out = nn.Linear(self.layer_width, self.c_dim)
+        acts = [nn.ELU(), nn.Softplus()]
+        self.order = torch.arange(len(acts))
+        self.acts = nn.ModuleList(acts)
 
     def forward(self, x, y, z, r, z_scaled):
         z_pt = self.linear_z(z_scaled)
@@ -93,5 +96,6 @@ class GeneratorRandomAct(nn.Module):
         H = self.acts[5](self.linear_h(H))
         H = self.acts[6](self.linear_h(H))
         H = self.acts[7](self.linear_h(H))
-        x = .5 * self.acts[8](self.linear_out(H)) + .5
+        #x = .5 * self.acts[8](self.linear_out(H)) + .5
+        x = self.acts[8](self.linear_out(H))
         return x
