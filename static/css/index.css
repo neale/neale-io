@@ -6,6 +6,42 @@ html { font-family: sans-serif; /* 1 */ -ms-text-size-adjust: 100%; /* 2 */ -web
 /** Remove default margin. */
 body { margin: 0; }
 
+
+img.rounded {
+    object-fit: cover;
+    border-radius: 15% !important;
+    height: 100px;
+    width: 100px;
+}
+
+.rounded {
+    border-radius: 0;
+}
+
+.neural-canvas-text {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.agent-artist-text {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+.agent-artist-title {
+    margin-top: 3em;
+    margin-bottom: 1em;
+}
+.active-projects {
+    margin-bottom: 3em;
+    margin-top: 2em;
+}
+.news {
+    margin-bottom: 1em;
+    margin-top: 3em;
+}
+.this-site-title {
+    margin-bottom: 3em;
+    margin-top: 3em;
+}
 /* HTML5 display definitions ========================================================================== */
 /** Correct `block` display not defined for any HTML5 element in IE 8/9. Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox. Correct `block` display not defined for `main` in IE 11. */
 /*article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary { display: block; }*/
